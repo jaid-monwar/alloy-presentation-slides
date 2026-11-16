@@ -6722,8 +6722,7 @@ const previousStage=document.querySelector('#previous-stage'), nextStage=documen
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const stageNotes=[
   [
-    'I’ll trace how a solved Alloy command produces a clickable instance link in the Analyzer’s log.',
-    'In <code>SimpleGUI.java</code>, <code>main(args)</code> schedules GUI construction on Swing’s event thread. The constructor creates <code>SwingLogPanel</code> with the scroll pane, fonts, colors, and <code>this</code>. That last argument becomes <code>handler</code>, connecting future link presses to the Analyzer.'
+        'In <code>SimpleGUI.java</code>, <code>main(args)</code> schedules GUI construction on Swing’s event thread. The constructor creates <code>SwingLogPanel</code> with the scroll pane, fonts, colors, and <code>this</code>. That last argument becomes <code>handler</code>, connecting future link presses to the Analyzer.'
   ],
   [
     'An Execute action reaches <code>doRun(commandIndex)</code> in <code>SimpleGUI.java</code>. It constructs <code>SimpleCallback1(this, null, log, verbosity, latestName, latestVersion)</code>.',
