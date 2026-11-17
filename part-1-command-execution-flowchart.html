@@ -13,21 +13,36 @@ section{display:flex;flex-direction:column;flex:0 0 100%;min-width:0;height:100%
 .footer-key{flex:none;padding:7px 22px;border-top:1px solid #ccd9e6}
 .stage-navigation{display:flex;align-items:center;gap:8px;min-width:0;max-width:100%}
 #stage{min-width:0;flex:1}
-.stage-notes{flex:none;min-height:88px;padding:9px 22px 11px;border-top:1px solid #ccd9e6;background:#f8fafc;color:#193047;text-align:center}
-.stage-note-heading{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:4px;color:#526a84;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.stage-note-position{font:11px ui-monospace,monospace;color:#526a84}
-.stage-note-text{margin:0}
-.stage-note-block{margin:0 0 5px;font-size:13px;line-height:1.4}
-.stage-note-block:last-child{margin-bottom:0}
-.stage-note-block code{color:#155493;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
 button:disabled{opacity:.45;cursor:default}
 button:disabled:hover{background:white}
-@media(max-width:650px){header{padding:10px 12px}.key{font-size:10px}#stage{max-width:100%}#query{width:165px}.viewport{padding:10px}.stagebar{padding:10px 12px}.stage-notes{padding:8px 12px 10px;min-height:82px}.stage-note-block{font-size:12px}.footer-key{padding:6px 12px}h1{font-size:16px}h2{font-size:14px}}
+@media(max-width:650px){header{padding:10px 12px}.key{font-size:10px}#stage{max-width:100%}#query{width:165px}.viewport{padding:10px}.stagebar{padding:10px 12px}.footer-key{padding:6px 12px}h1{font-size:16px}h2{font-size:14px}}
 @media print{html,body{height:auto;overflow:visible}body,main{display:block}main{overflow:visible}header{position:static;background:white;color:black;box-shadow:none}.controls,.topbar a,.key,.stagebar a{display:none}section{display:block;height:auto;break-before:page}.viewport{overflow:visible;background:none;padding:0}.diagram{min-width:0;display:block}.diagram svg{max-width:100%;height:auto!important}.stagebar{position:static}h1{font-size:20px}}
+html.continuous-mode{height:auto;overflow:auto}
+body.continuous{height:auto;min-height:100dvh;display:block;overflow:visible}
+body.continuous header{position:sticky;top:0}
+body.continuous main{display:block;overflow:visible}
+body.continuous section{height:auto;display:block}
+body.continuous .viewport{max-height:none;overflow-x:auto;overflow-y:hidden}
+body.continuous .footer-key{position:static}
+.description-toggle{display:inline-flex;align-items:center;gap:6px;color:#e2effb;font-size:12px;white-space:nowrap}
+.description-toggle input{accent-color:#f2b34d}
+.node.description-target{filter:drop-shadow(0 0 4px #e8a43c)}
+.node.description-target polygon,.node.description-target>path{stroke:#d4861e!important;stroke-width:3!important}
+.description-dialog{position:fixed;z-index:15;width:min(340px,calc(100vw - 24px));padding:13px 15px;border:2px solid #d4861e;border-radius:10px;background:#fff9e9;color:#193047;box-shadow:0 8px 24px #11253b55;font-size:13px;line-height:1.45;pointer-events:none;overflow-wrap:anywhere}
+.description-dialog::before{content:"";position:absolute;width:14px;height:14px;background:#fff9e9;border:solid #d4861e;transform:rotate(45deg)}
+.description-dialog[data-side="right"]::before{left:-9px;top:var(--pointer-offset,22px);border-width:0 0 2px 2px}
+.description-dialog[data-side="left"]::before{right:-9px;top:var(--pointer-offset,22px);border-width:2px 2px 0 0}
+.description-dialog[data-side="below"]::before{top:-9px;left:var(--pointer-offset,22px);border-width:2px 0 0 2px}
+.description-dialog[data-side="above"]::before{bottom:-9px;left:var(--pointer-offset,22px);border-width:0 2px 2px 0}
+.dialog-heading{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;color:#85510d;font-size:10px;font-weight:750;letter-spacing:.05em;text-transform:uppercase}
+.description-dialog p{margin:0}.description-dialog code{color:#155493;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
+.description-dialog[hidden]{display:none}
+@media(max-width:650px){.description-dialog{width:min(280px,calc(100vw - 24px));font-size:12px}.description-dialog code{font-size:11px}}
+@media print{.description-dialog{display:none!important}.node.description-target{filter:none}body.continuous header{position:static}body.continuous .viewport{overflow:visible}}
 </style></head><body>
 <header><div class="topbar"><h1>Alloy · Part 1 · Command execution flowchart</h1><a href="part-1-command-execution.html">Full write-up ↗</a><nav aria-label="Flowchart pages" style="display:flex;gap:6px;flex-wrap:wrap"><a href="part-2-instance-visualization-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">Part 2 →</a><a href="part-3-log-instance-link-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">Part 3 →</a></nav></div>
-<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → Swing → listener registration</option><option value="phase-02">02 · Click → select command → capture the request</option><option value="phase-03">03 · Dispatch → process pipe → worker task thread</option><option value="phase-04">04 · Task entry → source snapshot → recursive parsing</option><option value="phase-05">05 · Resolve names/types → run/check formula → selected command</option><option value="phase-06">06 · Translator construction → scopes → universe → bounds</option><option value="phase-07">07 · Alloy expression visitors → backend formula list</option><option value="phase-08">08 · A4Solution.solve → simplification → backend dispatch</option><option value="phase-09">09 · Static backend → Boolean circuit → CNF → SAT engine</option><option value="phase-10">10 · Temporal backend → finite trace expansion → SAT</option><option value="phase-11">11 · Decomposition threads / external temporal solver process</option><option value="phase-12">12 · Backend answer → A4Solution → result callback</option><option value="phase-13">13 · Task return → completion pipe → controls restored</option><option value="phase-14">14 · Alternate branches · book examples / exports / greedy commands</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite" aria-atomic="true">1 / 14</span></div><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><input id="query" type="search" placeholder="Find a method / parameter" aria-label="Find a method or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button></div>
-<div class="key"><span>IN · arguments</span><span>OUT · return</span><span>Δ · state changes</span><span><i></i>execution / call</span><span><i class="ret"></i>return</span><span><i class="spawn"></i>thread / process start</span><span><i class="ipc"></i>pipe / process data</span><span><i class="err"></i>error / cancellation</span><span>↗ linked continuation · click node to highlight edges</span><span>Mouse wheel · scroll diagram</span></div></header>
+<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → Swing → listener registration</option><option value="phase-02">02 · Click → select command → capture the request</option><option value="phase-03">03 · Dispatch → process pipe → worker task thread</option><option value="phase-04">04 · Task entry → source snapshot → recursive parsing</option><option value="phase-05">05 · Resolve names/types → run/check formula → selected command</option><option value="phase-06">06 · Translator construction → scopes → universe → bounds</option><option value="phase-07">07 · Alloy expression visitors → backend formula list</option><option value="phase-08">08 · A4Solution.solve → simplification → backend dispatch</option><option value="phase-09">09 · Static backend → Boolean circuit → CNF → SAT engine</option><option value="phase-10">10 · Temporal backend → finite trace expansion → SAT</option><option value="phase-11">11 · Decomposition threads / external temporal solver process</option><option value="phase-12">12 · Backend answer → A4Solution → result callback</option><option value="phase-13">13 · Task return → completion pipe → controls restored</option><option value="phase-14">14 · Alternate branches · book examples / exports / greedy commands</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite" aria-atomic="true">1 / 14</span></div><label class="description-toggle"><input type="checkbox" id="descriptions" aria-label="Show node descriptions" aria-controls="node-description" checked><span id="description-state">Descriptions on</span></label><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><button id="all-stages" aria-pressed="false">All stages ↓</button><input id="query" type="search" placeholder="Find a method / parameter" aria-label="Find a method or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button></div>
+<div class="key"><span>IN · arguments</span><span>OUT · return</span><span>Δ · state changes</span><span><i></i>execution / call</span><span><i class="ret"></i>return</span><span><i class="spawn"></i>thread / process start</span><span><i class="ipc"></i>pipe / process data</span><span><i class="err"></i>error / cancellation</span><span>↗ linked continuation · click node to highlight edges</span><span>Mouse wheel · scroll diagram</span><span>← → stages · ↑ ↓ descriptions</span></div></header>
 <main id="stages" aria-label="Command execution stages"><section id="phase-01"><div class="stagebar"><span class="num">01</span><h2>Startup → Swing → listener registration</h2><a href="#phase-02">Next stage →</a></div><div class="viewport" tabindex="0" aria-label="Scrollable stage 1"><div class="diagram"><svg role="img" aria-label="Startup → Swing → listener registration" width="568pt" height="1773pt"
  viewBox="0.00 0.00 568.32 1773.32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="s01&#45;svg" class="graph" transform="scale(1 1) rotate(0) translate(20.16 1753.16)">
@@ -6389,7 +6404,7 @@ button:disabled:hover{background:white}
 </g>
 </g>
 </svg>
-</div></div></section></main><div class="footer-key">Source checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · Part 1 · Generated from inspected source · Offline SVG</div><script>
+</div></div></section></main><div class="footer-key">Source checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · Part 1 · Generated from inspected source · Offline SVG</div><aside id="node-description" class="description-dialog" role="status" aria-live="polite" aria-atomic="true" hidden><div class="dialog-heading"><span class="dialog-stage">Stage description</span><span class="dialog-count"></span></div><p class="dialog-text"></p></aside><script>
 const sections=[...document.querySelectorAll('section')];
 const nodes=[...document.querySelectorAll('g.node')];
 const svgs=[...document.querySelectorAll('.diagram svg')];
@@ -6397,159 +6412,689 @@ const query=document.querySelector('#query'), counter=document.querySelector('#m
 const stages=document.querySelector('#stages'), stageSelect=document.querySelector('#stage');
 const previousStage=document.querySelector('#previous-stage'), nextStage=document.querySelector('#next-stage');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-const stageNotes=[
+// Explicit SVG node IDs paired with presentation narration.
+// Each dialog is a complete thought. Consecutive sentences about one node stay together.
+// Stage 06 follows constructor call order. Branches are introduced as alternatives.
+const descriptionSteps=[
   [
-    'Before we begin, let’s define what a command is. A command is a <code>run</code> or <code>check</code> instruction in the model.',
-    '<code>SimpleGUI.main(args)</code> passes a startup task to <code>SwingUtilities.invokeLater</code>. Swing’s UI thread runs it and constructs <code>SimpleGUI</code>. During setup, <code>wrapMe()</code> creates Runners that remember which methods the buttons should call. Once the Execute button receives its Runner, Alloy is now ready for a click.'
+    {
+      "nodeId": "s01-main",
+      "html": "A command is a <code>run</code> or <code>check</code> instruction. We will follow its execution, starting at <code>SimpleGUI.main(args)</code>."
+    },
+    {
+      "nodeId": "s01-schedule",
+      "html": "From main, <code>SwingUtilities.invokeLater</code> queues a task to build the window on Swing’s UI thread."
+    },
+    {
+      "nodeId": "s01-gui",
+      "html": "That thread runs the task and creates <code>SimpleGUI</code>, which builds the Analyzer window."
+    },
+    {
+      "nodeId": "s01-wrap",
+      "html": "While building the controls, <code>wrapMe()</code> creates Runners. Each runner remembers a method to call later."
+    },
+    {
+      "nodeId": "s01-register",
+      "html": "The Execute button keeps its Runner. Startup is complete. Now the user clicks Execute."
+    }
   ],
   [
-    'The click reaches <code>Runner.actionPerformed(e)</code>, where <code>e</code> is the click event. The Runner invokes its saved method.',
-    'Which calls <code>doExecuteLatest()</code>. This refreshes the command list and passes the command index to <code>doRun</code>. A specific command calls <code>doRun(i)</code> directly; minus one means Execute All.',
-    '<code>doRun</code> checks whether the worker is busy. If available, it creates the GUI callback and fills the run options from preferences.',
-    '<code>text.takeSnapshot()</code> captures open tabs, including unsaved edits. A <code>SimpleTask1</code> receives the source map, command index, copied options, and temporary directory. Finally, the GUI shows Stop and passes the task and callback onward.'
+    {
+      "nodeId": "s02-event",
+      "html": "That click reaches <code>Runner.actionPerformed(e)</code>. The argument <code>e</code> describes the click event."
+    },
+    {
+      "nodeId": "s02-invoke",
+      "html": "The Runner then calls its saved method on the GUI object."
+    },
+    {
+      "nodeId": "s02-latest",
+      "html": "Execute calls <code>doExecuteLatest()</code>. It updates the command list and passes the remembered command number to <code>doRun</code>."
+    },
+    {
+      "nodeId": "s02-run",
+      "html": "A command menu item calls <code>doRun(i)</code> directly instead. Here, <code>i</code> selects a command. Minus one means Execute All."
+    },
+    {
+      "nodeId": "s02-busy",
+      "html": "Before starting work, <code>doRun</code> calls <code>WorkerEngine.isBusy()</code>. If another run is active, it returns."
+    },
+    {
+      "nodeId": "s02-callback",
+      "html": "If the worker is free, Alloy creates <code>SimpleCallback1</code> to receive progress and result messages."
+    },
+    {
+      "nodeId": "s02-options",
+      "html": "Next, Alloy fills an <code>A4Options</code> object with the user’s solver settings."
+    },
+    {
+      "nodeId": "s02-snapshot",
+      "html": "With those settings ready, <code>text.takeSnapshot()</code> copies the open editor tabs, including unsaved changes."
+    },
+    {
+      "nodeId": "s02-package",
+      "html": "Alloy puts this file-name-to-text map, command number, copied settings, and temporary folder into <code>SimpleTask1</code>."
+    },
+    {
+      "nodeId": "s02-controls",
+      "html": "The GUI shows Stop and hands the task and callback to the worker setup shown next."
+    }
   ],
   [
-    'Normally, <code>WorkerEngine.run(task, newmem, newstack, "", cb)</code> receives the task, memory limit, stack limit, inherited classpath choice, and the GUI callback. It starts or reuses a separate Java worker process.',
-    '<code>latest_manager.start()</code> starts manager thread T2, freeing the UI thread to handle events. The manager sends the task with <code>main2sub.writeObject(task)</code> where Serialization turns it into bytes for the pipeline.',
-    'The worker’s T3 thread reconstructs the task using <code>oin.readObject()</code>, then starts T4. T4 calls <code>task.run(y)</code>; callback <code>y</code> sends messages back through the pipeline. If the Debug mode is used, it calls <code>runLocally</code> on the current thread.'
+    {
+      "nodeId": "s03-remote",
+      "html": "This calls <code>WorkerEngine.run(task, newmem, newstack, \"\", cb)</code> with the task, memory and stack limits, classpath choice, and GUI callback."
+    },
+    {
+      "nodeId": "s03-launch",
+      "html": "Alloy starts a separate Java worker process if needed. Otherwise, it reuses the existing worker."
+    },
+    {
+      "nodeId": "s03-managerstart",
+      "html": "Then <code>latest_manager.start()</code> starts T2. The UI thread becomes free to handle more events."
+    },
+    {
+      "nodeId": "s03-send",
+      "html": "T2 sends the task using <code>main2sub.writeObject(task)</code>. This turns the task into bytes and writes them through a pipe."
+    },
+    {
+      "nodeId": "s03-receive",
+      "html": "On the other end, the worker’s T3 thread uses <code>oin.readObject()</code> to rebuild the task, then starts T4."
+    },
+    {
+      "nodeId": "s03-taskcall",
+      "html": "T4 calls <code>task.run(y)</code>. Callback <code>y</code> sends messages back through the pipe."
+    },
+    {
+      "nodeId": "s03-local",
+      "html": "Debug mode takes another route through <code>runLocally</code>, using the current thread. Either route reaches the task entry shown next."
+    }
   ],
   [
-    '<code>SimpleTask1.run(out)</code> creates a <code>SimpleReporter</code>, named <code>rep</code>, for progress and warnings. It calls <code>parseEverything_fromFile</code> with the reporter, the source snapshot, root filename, and resolution mode.',
-    '<code>parseRecursively</code> handles the starting file and its imports. <code>alloy_parseStream</code> obtains the source; <code>CompFilter</code> supplies tokens; <code>parser.parse()</code> builds objects for signatures, fields, facts, and commands. Each <code>open</code> repeats this process for an imported file. Alloy checks for import cycles and passes the connected modules into Stage Five.'
+    {
+      "nodeId": "s04-reporter",
+      "html": "At task entry, <code>SimpleTask1.run(out)</code> creates reporter <code>rep</code>. It sends progress and warnings through <code>out</code>."
+    },
+    {
+      "nodeId": "s04-parse",
+      "html": "It passes <code>rep</code>, the source snapshot, file name, and name-handling setting to <code>parseEverything_fromFile</code>."
+    },
+    {
+      "nodeId": "s04-recursive",
+      "html": "This calls <code>parseRecursively</code> to read the starting file and follow its imports."
+    },
+    {
+      "nodeId": "s04-stream",
+      "html": "For each file, <code>alloy_parseStream</code> obtains its source text."
+    },
+    {
+      "nodeId": "s04-filter",
+      "html": "That text goes through <code>CompFilter</code>, which supplies tokens for the parser."
+    },
+    {
+      "nodeId": "s04-parser",
+      "html": "Then <code>parser.parse()</code> builds objects for signatures, fields, facts, functions, and commands from those tokens."
+    },
+    {
+      "nodeId": "s04-imports",
+      "html": "Each <code>open</code> repeats this process for an imported file. Alloy tracks the import chain to detect loops."
+    },
+    {
+      "nodeId": "s04-root",
+      "html": "The connected root module now returns. Next, Alloy checks what its names mean."
+    }
   ],
   [
-    '<code>CompModule.resolveAll(rep, root)</code> connects names to declarations and checks types. Signature and field steps establish inheritance and field types.',
-    '<code>resolveFuncDecls</code> builds typed parameters and return declarations.',
-    '<code>resolveFuncBody</code>, <code>resolveAssertions</code>, and <code>resolveFacts</code> check the expressions and store checked versions.',
-    '<code>root.resolveCommands</code> receives the combined facts from reachable modules. For each command, <code>resolveCommand</code> finds its target. A run uses the predicate body; a check negates the assertion to search for a counterexample. The new Command combines that expression with the facts and retains its scopes.',
-    'Back in the task, warnings may stop execution. Otherwise, <code>cmds.get(i)</code> selects the requested command and passes it.'
+    {
+      "nodeId": "s05-all",
+      "html": "<code>CompModule.resolveAll(rep, root)</code> performs those checks. It links names to declarations and checks that types fit together."
+    },
+    {
+      "nodeId": "s05-fields",
+      "html": "After checking signature inheritance, <code>resolveFieldDecl</code> checks field types."
+    },
+    {
+      "nodeId": "s05-funcs",
+      "html": "Next, <code>resolveFuncDecls</code> checks function and predicate parameters and return types."
+    },
+    {
+      "nodeId": "s05-bodies",
+      "html": "Then <code>resolveFuncBody</code>, <code>resolveAssertions</code>, and <code>resolveFacts</code> check their expressions and save checked versions."
+    },
+    {
+      "nodeId": "s05-commands",
+      "html": "<code>root.resolveCommands</code> receives the combined facts from the model and its imports."
+    },
+    {
+      "nodeId": "s05-command",
+      "html": "For each command, <code>resolveCommand</code> finds its predicate, function, or assertion. It then branches by command kind."
+    },
+    {
+      "nodeId": "s05-run",
+      "html": "A run uses the predicate or function body, with any required parameter and return constraints."
+    },
+    {
+      "nodeId": "s05-check",
+      "html": "A check instead negates the assertion to search for a case where it is false."
+    },
+    {
+      "nodeId": "s05-newcmd",
+      "html": "Both paths create a Command combining that expression with the facts and keeping the scopes."
+    },
+    {
+      "nodeId": "s05-warn",
+      "html": "Back in the task, Alloy checks whether any warnings should stop the run."
+    },
+    {
+      "nodeId": "s05-select",
+      "html": "If allowed to continue, <code>cmds.get(i)</code> picks the command. It goes to translator setup with the signatures, reporter, and settings."
+    }
   ],
   [
-    '<code>execute_commandFromBook(rep, sigs, cmd, opt)</code> creates <code>TranslateAlloyToKodkod</code> for an ordinary command.',
-    'Its constructor calls <code>ScopeComputer.compute</code>. This reads scopes such as “for three,” calculates exact sizes where required, and creates candidate atoms. It returns scope information, called <code>sc</code>, together with a new <code>A4Solution</code>. At this point, A4Solution holds the analysis setup and has no answer yet.',
-    'Inside it, <code>PardinusSolver</code> chooses a static, temporal, or decomposed backend. The SAT engine comes from the solver preference.',
-    '<code>BoundsComputer.compute(rep, frame, sc, sigs)</code> then creates relations for signatures and fields. Lower bounds specify required members; upper bounds specify allowed members. Field bounds contain candidate tuples matching field types.',
-    '<code>frame.addFormula</code> adds size and multiplicity constraints. The translator is now ready to translate the command expression.'
+    {
+      "nodeId": "s06-entry",
+      "html": "These inputs reach <code>execute_commandFromBook(rep, sigs, cmd, opt)</code>. For an ordinary command, it creates <code>TranslateAlloyToKodkod</code>."
+    },
+    {
+      "nodeId": "s06-compute",
+      "html": "Its constructor calls <code>ScopeComputer.compute</code> to prepare scopes and the analysis frame."
+    },
+    {
+      "nodeId": "s06-scope",
+      "html": "First, <code>ScopeComputer</code> reads limits such as “for three.” It works out required sizes and creates possible atoms for the search."
+    },
+    {
+      "nodeId": "s06-frame",
+      "html": "A new <code>A4Solution</code> holds these atoms, bounds, and settings. This frame has no answer yet."
+    },
+    {
+      "nodeId": "s06-pardinus",
+      "html": "Inside the frame, Alloy creates <code>PardinusSolver</code> with the search settings and the SAT engine chosen in preferences."
+    },
+    {
+      "nodeId": "s06-backend",
+      "html": "<code>PardinusSolver.solver()</code> uses these settings to choose the static, temporal, or decomposed search path."
+    },
+    {
+      "nodeId": "s06-pair",
+      "html": "The calculation returns the frame and scope information, <code>sc</code>, as a pair. The translator keeps both."
+    },
+    {
+      "nodeId": "s06-bounds",
+      "html": "It passes the reporter, frame, scopes, and signatures to <code>BoundsComputer.compute(rep, frame, sc, sigs)</code>. This sets their bounds."
+    },
+    {
+      "nodeId": "s06-allocate",
+      "html": "For signatures, lower bounds say which atoms are required. Upper bounds say which atoms are allowed."
+    },
+    {
+      "nodeId": "s06-fields",
+      "html": "For fields, it records possible tuples, or links, matching their types."
+    },
+    {
+      "nodeId": "s06-constraints",
+      "html": "<code>frame.addFormula</code> stores size rules and constraints for one, some, and lone."
+    },
+    {
+      "nodeId": "s06-facts",
+      "html": "With the bounds ready, Alloy can now translate the command’s conditions."
+    }
   ],
   [
-    '<code>tr.makeFacts(cmd.formula)</code> adds field and signature constraints and translates the command formula.',
-    '<code>cform</code>, <code>cset</code>, and <code>cint</code> produce backend formulas, relations, and integer expressions. They enter <code>visitThis</code>.',
-    'For example, <code>visit(ExprBinary x)</code> translates both children and applies the operator: AND which becomes backend conjunction. <code>frame.addFormula</code> stores each translated constraint with its source information. The frame now contains the formulas to solve.'
+    {
+      "nodeId": "s07-facts",
+      "html": "<code>tr.makeFacts(cmd.formula)</code> starts that work. It adds field and signature rules and translates the command formula."
+    },
+    {
+      "nodeId": "s07-cform",
+      "html": "The helpers <code>cform</code>, <code>cset</code>, and <code>cint</code> translate conditions, sets or relations, and integer expressions."
+    },
+    {
+      "nodeId": "s07-visit",
+      "html": "These helpers enter <code>visitThis</code>. Each expression’s <code>accept</code> chooses the visit method for its kind of expression."
+    },
+    {
+      "nodeId": "s07-binary",
+      "html": "For example, <code>visit(ExprBinary x)</code> translates the left and right sides. For AND, it joins their translated conditions with AND."
+    },
+    {
+      "nodeId": "s07-add",
+      "html": "<code>frame.addFormula</code> stores each translated rule with its source information. With these rules ready, Alloy can ask the frame to solve them."
+    }
   ],
   [
-    '<code>frame.solve(rep, cmd, new Simplifier(), true)</code> receives the reporter, command, simplifier, and permission to try book examples.',
-    'When enabled, <code>simp.simplify</code> tightens bounds using known constraints. <code>Formula.and(formulas)</code> combines the constraints into <code>fgoal</code>. The bounds are split if decomposition is enabled.',
-    'The ordered branches handle exports and candidate examples first. Otherwise, <code>PardinusSolver.solve(fgoal, b)</code> requests one answer. An incremental route, or a failed candidate attempt, calls <code>solveAll</code> and requests the first answer through an iterator. Both receive the relational goal and bounds and delegate to the configured backend.'
+    {
+      "nodeId": "s08-solve",
+      "html": "That call is <code>frame.solve(rep, cmd, new Simplifier(), true)</code>. It receives the reporter, command, and simplifier. True allows an example-instance attempt."
+    },
+    {
+      "nodeId": "s08-simplify",
+      "html": "When enabled, <code>simp.simplify</code> uses known rules to narrow the possible choices."
+    },
+    {
+      "nodeId": "s08-goal",
+      "html": "<code>Formula.and(formulas)</code> then combines the rules into one goal, called <code>fgoal</code>."
+    },
+    {
+      "nodeId": "s08-bounds",
+      "html": "If decomposition is enabled, Alloy also splits the bounds for that search strategy."
+    },
+    {
+      "nodeId": "s08-exporttest",
+      "html": "Alloy next checks the special export and example paths. We will revisit these on the final slide."
+    },
+    {
+      "nodeId": "s08-direct",
+      "html": "One ordinary route calls <code>PardinusSolver.solve(fgoal, b)</code> for a single answer. Here, <code>b</code> contains the bounds."
+    },
+    {
+      "nodeId": "s08-all",
+      "html": "Another route calls <code>solveAll</code> for its first answer. Failed example attempts also reach it. Both pass the goal and bounds onward. We will follow static search first."
+    }
   ],
   [
-    'For a static model, <code>AbstractKodkodSolver.solve</code>, or its iterator path, calls <code>Translator.translate(formula, bounds, options)</code>.',
-    '<code>optimizeFormulaAndBounds</code> simplifies the problem. <code>toBoolean</code> converts relational constraints over candidate tuples into a Boolean circuit. <code>toCNF</code> converts the circuit into clauses, the input understood by a SAT solver.',
-    '<code>SATFactory.instance()</code> creates the selected solver. The CNF translator loads variables and clauses into it. Then <code>cnf.solve()</code> performs the search with no method arguments because those clauses are already stored. With SAT4J, this reaches <code>ISolver.isSatisfiable()</code>; MiniSat uses the native path instead.',
-    'If satisfiable, <code>translation.interpret()</code> turns the Boolean assignment into relation tuples. Those tuples form a backend Instance, returned inside a Solution. Otherwise, the backend returns an unsatisfiable Solution, optionally with proof information.'
+    {
+      "nodeId": "s09-translator",
+      "html": "For static models, <code>Translator.translate(formula, bounds, options)</code> receives the goal, bounds, and settings."
+    },
+    {
+      "nodeId": "s09-optimize",
+      "html": "<code>optimizeFormulaAndBounds</code> first simplifies the problem."
+    },
+    {
+      "nodeId": "s09-boolean",
+      "html": "<code>toBoolean</code> turns possible relation entries and their rules into a true-or-false circuit."
+    },
+    {
+      "nodeId": "s09-cnf",
+      "html": "<code>toCNF</code> converts this circuit into clauses for the SAT solver."
+    },
+    {
+      "nodeId": "s09-factory",
+      "html": "<code>SATFactory.instance()</code> creates the selected solver for those clauses."
+    },
+    {
+      "nodeId": "s09-clauses",
+      "html": "The CNF translator loads the variables and clauses into that solver."
+    },
+    {
+      "nodeId": "s09-solve",
+      "html": "Now <code>cnf.solve()</code> searches for values that satisfy every clause. It needs no arguments because the clauses are already stored."
+    },
+    {
+      "nodeId": "s09-sat4j",
+      "html": "If SAT4J was selected, this search reaches <code>ISolver.isSatisfiable()</code>."
+    },
+    {
+      "nodeId": "s09-native",
+      "html": "If MiniSat was selected instead, the search uses its native solver path."
+    },
+    {
+      "nodeId": "s09-interpret",
+      "html": "After either search succeeds, <code>translation.interpret()</code> turns the true-or-false values back into relation tuples."
+    },
+    {
+      "nodeId": "s09-sat",
+      "html": "Those tuples form an Instance, which the solver returns inside a Solution object."
+    },
+    {
+      "nodeId": "s09-unsat",
+      "html": "If no assignment works, an unsatisfiable Solution returns instead. That covers static search. Next is the time-dependent alternative."
+    }
   ],
   [
-    'Temporal models use an alternative route. <code>TemporalPardinusSolver</code> receives the formula, bounds, and trace options. <code>TemporalTranslator</code> converts time-dependent constraints into a relational problem over states and loops.',
-    'For each candidate trace length, the expanded problem follows the Boolean and SAT stages from Slide Nine. If necessary, the search increases the length within the configured limits. A satisfying answer is reconstructed as a <code>TemporalInstance</code> and returned.'
+    {
+      "nodeId": "s10-entry",
+      "html": "For a model with changes over time, <code>TemporalPardinusSolver</code> receives the goal, bounds, and trace-length settings."
+    },
+    {
+      "nodeId": "s10-trans",
+      "html": "<code>TemporalTranslator</code> rewrites those time-dependent rules in terms of states and a loop."
+    },
+    {
+      "nodeId": "s10-fol",
+      "html": "For a chosen trace length, the expanded problem follows the Boolean and SAT steps we just saw."
+    },
+    {
+      "nodeId": "s10-grow",
+      "html": "If needed, the search tries longer traces within the configured limits."
+    },
+    {
+      "nodeId": "s10-sat",
+      "html": "An answer becomes a <code>TemporalInstance</code>. Before following it back, we will look at two other search options."
+    }
   ],
   [
-    'This slide shows two other routes. Decomposition uses <code>DecomposedPardinusSolver.solveAll</code> to generate configurations. A coordinator schedules <code>DProblem.run()</code> jobs, which call the static or temporal solver with their problem bounds and queue answers.',
-    'The external route uses <code>ElectrodSolver.solve</code> to print the formula and bounds, launch Electrod with the selected checker, and wait for output. <code>ElectrodReader.read(xml)</code> rebuilds the returned instance. Both routes return a backend Solution.'
+    {
+      "nodeId": "s11-decomp",
+      "html": "The first option is decomposition. <code>DecomposedPardinusSolver.solveAll</code> generates partial configurations for separate search jobs."
+    },
+    {
+      "nodeId": "s11-problem",
+      "html": "A coordinator schedules <code>DProblem.run()</code> jobs. Each calls a static or temporal solver with its problem bounds and queues the answer."
+    },
+    {
+      "nodeId": "s11-external",
+      "html": "The second option uses an external program. <code>ElectrodSolver.solve</code> writes the problem, starts Electrod with the chosen checker, and waits for output."
+    },
+    {
+      "nodeId": "s11-read",
+      "html": "<code>ElectrodReader.read(xml)</code> then reads that output and rebuilds the returned instance, if one exists."
+    },
+    {
+      "nodeId": "s11-result",
+      "html": "Both options return a backend Solution. We can now follow this answer back into Alloy’s analysis frame."
+    }
   ],
   [
-    'Back in <code>A4Solution.solve</code>, <code>sol.instance()</code> gives the instance or null for an unsatisfiable result. A satisfying result gets an Evaluator and Alloy atom names.',
-    'The function <code>solved()</code> finalizes the frame. <code>rep.resultSAT</code> or <code>rep.resultUNSAT</code> receives the command, elapsed time, and finalized A4Solution. The reporter sends a result message back and saves instance XML when appropriate. The method returns that A4Solution through the translator to the task.'
+    {
+      "nodeId": "s12-instance",
+      "html": "Back in <code>A4Solution.solve</code>, <code>sol.instance()</code> gives the instance, or null for an unsatisfiable answer."
+    },
+    {
+      "nodeId": "s12-eval",
+      "html": "If an instance exists, Alloy creates an Evaluator for it and assigns names to its atoms."
+    },
+    {
+      "nodeId": "s12-solved",
+      "html": "Once result preparation is complete, <code>solved()</code> marks the frame as solved."
+    },
+    {
+      "nodeId": "s12-sat",
+      "html": "Alloy calls <code>rep.resultSAT</code> or <code>rep.resultUNSAT</code> with the command, time taken, and completed A4Solution."
+    },
+    {
+      "nodeId": "s12-send",
+      "html": "After saving instance XML when needed, the reporter sends a result message back to the main process."
+    },
+    {
+      "nodeId": "s12-ret",
+      "html": "The solve method returns the A4Solution through the translator to the task. The next stage shows how that task finishes."
+    }
   ],
   [
-    '<code>SimpleTask1.run</code> records the result. Execute All repeats the command loop using the already parsed model.',
-    'When the task finishes normally, the worker writes a null completion marker. The manager reads it and calls <code>SimpleCallback1.done()</code>, which calls <code>SimpleGUI.doStop()</code>. Zero means normal completion: Execute and Show are restored, and Stop is hidden. Failure and user cancellation take separate paths to restore the controls.'
+    {
+      "nodeId": "s13-task",
+      "html": "With the answer back, <code>SimpleTask1.run</code> records the result for this command."
+    },
+    {
+      "nodeId": "s13-next",
+      "html": "For Execute All, the task repeats the command loop using the same parsed model. Otherwise, it can finish now."
+    },
+    {
+      "nodeId": "s13-complete",
+      "html": "When the task finishes normally, the worker sends a null marker to mean “finished.”"
+    },
+    {
+      "nodeId": "s13-done",
+      "html": "The manager reads it and calls <code>SimpleCallback1.done()</code>. This calls <code>SimpleGUI.doStop(0)</code>."
+    },
+    {
+      "nodeId": "s13-stopdone",
+      "html": "Zero means normal completion. Execute and Show become available again, and Stop is hidden."
+    },
+    {
+      "nodeId": "s13-fail",
+      "html": "A worker failure or a click on Stop follows a separate path to restore the controls. Our final slide revisits the special branches mentioned earlier."
+    }
   ],
   [
-    'Finally, these branches reconnect to the earlier flow. <code>tryBook</code> tests a candidate against the formula. Export paths write solver input. <code>execute_greedyCommand</code> handles dependent commands or growing scopes through repeated solves. Each rejoins reporting or task completion. Thank you.'
+    {
+      "nodeId": "s14-book",
+      "html": "The first branch, <code>tryBook</code>, tests an example instance against the goal before a wider search."
+    },
+    {
+      "nodeId": "s14-export",
+      "html": "The export branches save solver input rather than return an ordinary instance."
+    },
+    {
+      "nodeId": "s14-greedy",
+      "html": "The greedy branch, <code>execute_greedyCommand</code>, handles linked commands or growing scopes through repeated solves."
+    },
+    {
+      "nodeId": "s14-greedydone",
+      "html": "These branches rejoin result handling or task completion. This brings us to the end of the command’s execution."
+    }
   ]
 ];
 let activeStage=0;
 let zoom=1, fitting=false, matches=[], matchIndex=-1;
-function renderStageNote(section){
-  const notes=stageNotes[sections.indexOf(section)];
-  section.querySelector('.stage-note-text').innerHTML=notes.map(note=>'<p class="stage-note-block">'+note+'</p>').join('');
+const descriptionsToggle=document.querySelector('#descriptions');
+const descriptionDialog=document.querySelector('#node-description');
+const descriptionState=descriptionSteps.map((items,stageIndex)=>({
+  index:0,
+  items:items.map(item=>{
+    const target=document.getElementById(item.nodeId);
+    if(!target||target.closest('section')!==sections[stageIndex]){
+      throw new Error('Invalid description node mapping: '+item.nodeId);
+    }
+    return {...item,target};
+  })
+}));
+let descriptionTarget=null, placementFrame=0;
+const clamp=(value,min,max)=>Math.max(min,Math.min(Math.max(min,max),value));
+function schedulePlacement(){
+  if(!placementFrame)placementFrame=requestAnimationFrame(()=>{placementFrame=0;placeDescription();});
 }
-sections.forEach(section=>{
-  const panel=document.createElement('div');
-  panel.className='stage-notes';
-  panel.setAttribute('aria-label','Part notes');
-  panel.innerHTML='<div class="stage-note-heading"><span>Stage notes</span></div><div class="stage-note-text"></div>';
-  section.append(panel);
-  renderStageNote(section);
+function placeDescription(){
+  if(descriptionDialog.hidden||!descriptionTarget)return;
+  const viewport=descriptionTarget.closest('.viewport');
+  const area=viewport.getBoundingClientRect(),box=descriptionTarget.getBoundingClientRect();
+  const headerBottom=document.querySelector('header').getBoundingClientRect().bottom;
+  const footer=document.querySelector('.footer-key').getBoundingClientRect();
+  const left=Math.max(10,area.left+8),right=Math.min(window.innerWidth-10,area.right-8);
+  const top=Math.max(headerBottom+8,area.top+8);
+  const bottom=Math.min(window.innerHeight-10,area.bottom-8,
+    document.body.classList.contains('continuous')?Infinity:footer.top-8);
+  if(box.right<=left||box.left>=right||box.bottom<=top||box.top>=bottom||bottom<=top){
+    descriptionDialog.style.visibility='hidden';return;
+  }
+  descriptionDialog.style.visibility='hidden';
+  descriptionDialog.style.width=Math.min(window.innerWidth<=650?280:340,Math.max(180,right-left))+'px';
+  const width=descriptionDialog.offsetWidth,height=descriptionDialog.offsetHeight,gap=18;
+  let side,x,y;
+  if(box.right+gap+width<=right){side='right';x=box.right+gap;y=box.top+(box.height-height)/2;}
+  else if(box.left-gap-width>=left){side='left';x=box.left-gap-width;y=box.top+(box.height-height)/2;}
+  else if(box.bottom+gap+height<=bottom){side='below';x=box.left+(box.width-width)/2;y=box.bottom+gap;}
+  else if(box.top-gap-height>=top){side='above';x=box.left+(box.width-width)/2;y=box.top-gap-height;}
+  else {
+    // At very large zoom/narrow widths, keep the explanation readable next to
+    // the visible portion of the node. Pointer events always pass through it.
+    side='below';x=box.left+(box.width-width)/2;y=bottom-height;
+  }
+  x=clamp(x,left,right-width);y=clamp(y,top,bottom-height);
+  descriptionDialog.dataset.side=side;
+  descriptionDialog.style.left=x+'px';descriptionDialog.style.top=y+'px';
+  const pointer=side==='right'||side==='left'
+    ?clamp(box.top+box.height/2-y-7,12,height-26)
+    :clamp(box.left+box.width/2-x-7,12,width-26);
+  descriptionDialog.style.setProperty('--pointer-offset',pointer+'px');
+  descriptionDialog.style.visibility='visible';
+}
+function showDescription(stageIndex,index,scrollToTarget=false){
+  const state=descriptionState[stageIndex];
+  state.index=clamp(index,0,state.items.length-1);
+  if(descriptionTarget){
+    descriptionTarget.classList.remove('description-target');
+    descriptionTarget.removeAttribute('aria-describedby');
+  }
+  descriptionTarget=null;descriptionDialog.hidden=true;
+  if(!descriptionsToggle.checked||!state.items.length)return;
+  const item=state.items[state.index];descriptionTarget=item.target;
+  descriptionTarget.classList.add('description-target');
+  descriptionTarget.setAttribute('aria-describedby','node-description');
+  descriptionDialog.dataset.nodeId=item.nodeId;
+  descriptionDialog.querySelector('.dialog-stage').textContent='Stage '+String(stageIndex+1).padStart(2,'0')+' description';
+  descriptionDialog.querySelector('.dialog-count').textContent=(state.index+1)+' / '+state.items.length;
+  descriptionDialog.querySelector('.dialog-text').innerHTML=item.html;
+  descriptionDialog.style.visibility='hidden';descriptionDialog.hidden=false;
+  if(scrollToTarget)revealElement(descriptionTarget,'instant',true);
+  schedulePlacement();
+}
+function moveDescription(direction){
+  const state=descriptionState[activeStage];
+  showDescription(activeStage,state.index+direction,true);
+}
+descriptionsToggle.addEventListener('change',()=>{
+  document.querySelector('#description-state').textContent=descriptionsToggle.checked?'Descriptions on':'Descriptions off';
+  showDescription(activeStage,descriptionState[activeStage].index,descriptionsToggle.checked);
 });
 function setActiveStage(index){
-  activeStage=index;
-  stageSelect.value=sections[index].id;
-  previousStage.disabled=index===0;
-  nextStage.disabled=index===sections.length-1;
+  const changed=index!==activeStage;
+  activeStage=index;stageSelect.value=sections[index].id;
+  previousStage.disabled=index===0;nextStage.disabled=index===sections.length-1;
   document.querySelector('#stage-position').textContent=(index+1)+' / '+sections.length;
+  if(changed)showDescription(index,descriptionState[index].index);
+  schedulePlacement();
 }
 function showStage(section,behavior='smooth'){
   setActiveStage(sections.indexOf(section));
-  stages.scrollTo({left:section.offsetLeft-stages.offsetLeft,behavior:reducedMotion.matches?'instant':behavior});
+  if(document.body.classList.contains('continuous')){
+    window.scrollTo({top:section.getBoundingClientRect().top+window.scrollY-document.querySelector('header').offsetHeight,behavior:'instant'});
+  }else{
+    stages.scrollTo({left:section.offsetLeft-stages.offsetLeft,behavior:reducedMotion.matches?'instant':behavior});
+  }
 }
 function navigateStage(index){
-  const section=sections[Math.max(0,Math.min(sections.length-1,index))];
-  showStage(section);
-  history.replaceState(null,'','#'+section.id);
+  index=clamp(index,0,sections.length-1);
+  showStage(sections[index]);
+  // Reveal the current step immediately; avoid competing smooth scrolls.
+  showDescription(index,descriptionState[index].index,true);
+  history.replaceState(null,'','#'+sections[index].id);
 }
 previousStage.onclick=()=>navigateStage(activeStage-1);
 nextStage.onclick=()=>navigateStage(activeStage+1);
 document.addEventListener('keydown',e=>{
-  const editing=e.target instanceof Element&&e.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"]');
+  const editing=e.target instanceof Element&&e.target.closest('input:not([type="checkbox"]),textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"]');
   if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||editing)return;
+  if(descriptionsToggle.checked&&(e.key==='ArrowDown'||e.key==='ArrowUp')){
+    e.preventDefault();moveDescription(e.key==='ArrowDown'?1:-1);return;
+  }
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
     const direction=e.key==='ArrowLeft'?-1:1;
     if(activeStage+direction<0||activeStage+direction>=sections.length)return;
-    e.preventDefault();
-    navigateStage(activeStage+direction);
+    e.preventDefault();navigateStage(activeStage+direction);
   }
 });
 stages.addEventListener('scroll',()=>{
-  setActiveStage(Math.max(0,Math.min(sections.length-1,Math.round(stages.scrollLeft/stages.clientWidth))));
+  if(!document.body.classList.contains('continuous')){
+    setActiveStage(clamp(Math.round(stages.scrollLeft/stages.clientWidth),0,sections.length-1));
+  }
+  schedulePlacement();
 },{passive:true});
-function revealElement(el,behavior='smooth'){
-  const section=el.closest('section');
-  if(!section)return;
-  showStage(section,behavior);
-  if(el===section)return;
-  const viewport=section.querySelector('.viewport'), bounds=el.getBoundingClientRect(), frame=viewport.getBoundingClientRect();
+window.addEventListener('scroll',()=>{
+  if(document.body.classList.contains('continuous')){
+    // A revealed node is centered below the header. Use that viewing line so
+    // the preceding section does not steal focus near a stage's first node.
+    const headerBottom=document.querySelector('header').getBoundingClientRect().bottom;
+    const viewingLine=headerBottom+(window.innerHeight-headerBottom)/2;
+    let index=0;sections.forEach((section,i)=>{if(section.getBoundingClientRect().top<=viewingLine)index=i;});
+    setActiveStage(index);
+  }
+  schedulePlacement();
+},{passive:true});
+sections.forEach(section=>section.querySelector('.viewport').addEventListener('scroll',schedulePlacement,{passive:true}));
+function revealElement(el,behavior='smooth',reserveCallout=false){
+  const section=el.closest('section');if(!section)return;
+  showStage(section,behavior);if(el===section)return;
+  const viewport=section.querySelector('.viewport');
+  let bounds=el.getBoundingClientRect(),frame=viewport.getBoundingClientRect();
+  const extra=reserveCallout?Math.min(360,viewport.clientWidth*.35):0;
+  const horizontalOffset=Math.max(16,(viewport.clientWidth-bounds.width-extra)/2);
   viewport.scrollTo({
-    left:viewport.scrollLeft+bounds.left-frame.left-Math.max(0,(viewport.clientWidth-bounds.width)/2),
-    top:viewport.scrollTop+bounds.top-frame.top-Math.max(0,(viewport.clientHeight-bounds.height)/2),
+    left:viewport.scrollLeft+bounds.left-frame.left-horizontalOffset,
+    top:document.body.classList.contains('continuous')?0:viewport.scrollTop+bounds.top-frame.top-Math.max(0,(viewport.clientHeight-bounds.height)/2),
     behavior:reducedMotion.matches?'instant':behavior
   });
+  if(document.body.classList.contains('continuous')){
+    bounds=el.getBoundingClientRect();
+    const headerHeight=document.querySelector('header').offsetHeight;
+    const padding=Math.max(16,(window.innerHeight-headerHeight-bounds.height)/2);
+    window.scrollTo({top:window.scrollY+bounds.top-headerHeight-padding,behavior:'instant'});
+  }
+  schedulePlacement();
 }
 svgs.forEach(s=>{const v=s.viewBox.baseVal;s.dataset.w=v.width*4/3;s.dataset.h=v.height*4/3;});
-function sizeCharts(){svgs.forEach(s=>{const factor=fitting?Math.min(1,(s.closest('.viewport').clientWidth-44)/Number(s.dataset.w)):zoom;s.style.width=Number(s.dataset.w)*factor+'px';s.style.height=Number(s.dataset.h)*factor+'px';});document.querySelector('#scale').textContent=fitting?'Fit':Math.round(zoom*100)+'%';}
-document.querySelector('#zin').onclick=()=>{zoom=Math.min(2.5,zoom+.15);fitting=false;sizeCharts();};
-document.querySelector('#zout').onclick=()=>{zoom=Math.max(.4,zoom-.15);fitting=false;sizeCharts();};
-document.querySelector('#reset').onclick=()=>{zoom=1;fitting=false;sizeCharts();};
-document.querySelector('#fit').onclick=()=>{fitting=!fitting;sizeCharts();};
+function sizeCharts(){
+  svgs.forEach(s=>{
+    const factor=fitting?Math.max(.1,Math.min(1,(s.closest('.viewport').clientWidth-44)/Number(s.dataset.w))):zoom;
+    s.style.width=Number(s.dataset.w)*factor+'px';s.style.height=Number(s.dataset.h)*factor+'px';
+  });
+  document.querySelector('#scale').textContent=fitting?'Fit':Math.round(zoom*100)+'%';
+  schedulePlacement();
+}
+function currentViewAnchor(){
+  const section=sections[activeStage],viewport=section.querySelector('.viewport');
+  const area=viewport.getBoundingClientRect(),headerBottom=document.querySelector('header').getBoundingClientRect().bottom;
+  const visible=node=>{
+    if(!node||node.closest('section')!==section)return false;
+    const box=node.getBoundingClientRect();
+    return box.right>Math.max(0,area.left)&&box.left<Math.min(innerWidth,area.right)
+      &&box.bottom>Math.max(headerBottom,area.top)&&box.top<Math.min(innerHeight,area.bottom);
+  };
+  const selected=section.querySelector('g.node.selected');
+  if(visible(selected))return selected;
+  return descriptionsToggle.checked&&visible(descriptionTarget)?descriptionTarget:null;
+}
+function changeZoom(update){
+  const anchor=currentViewAnchor();
+  update();sizeCharts();
+  // Keep a visible search/click result in view instead of jumping back to an
+  // unrelated description when the reader changes zoom.
+  if(anchor)revealElement(anchor,'instant',anchor===descriptionTarget);
+}
+document.querySelector('#zin').onclick=()=>changeZoom(()=>{zoom=Math.min(2.5,zoom+.15);fitting=false;});
+document.querySelector('#zout').onclick=()=>changeZoom(()=>{zoom=Math.max(.4,zoom-.15);fitting=false;});
+document.querySelector('#reset').onclick=()=>changeZoom(()=>{zoom=1;fitting=false;});
+document.querySelector('#fit').onclick=()=>changeZoom(()=>{fitting=!fitting;});
 stageSelect.onchange=e=>navigateStage(sections.findIndex(section=>section.id===e.target.value));
 function selectNode(n){document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));n.classList.add('selected');const title=n.querySelector('title')?.textContent;n.closest('svg').querySelectorAll('g.edge').forEach(e=>{const ends=e.querySelector('title')?.textContent.split('->');if(ends?.includes(title))e.classList.add('selected');});}
-nodes.forEach(n=>n.addEventListener('click',e=>{if(e.target.closest('a'))return;selectNode(n);}));
+nodes.forEach(n=>n.addEventListener('click',e=>{const a=e.target.closest('a');if(a&&(a.getAttribute('href')||a.getAttribute('xlink:href')))return;selectNode(n);}));
 function find(){document.querySelectorAll('.match').forEach(x=>x.classList.remove('match'));const text=query.value.trim().toLowerCase();matches=text?nodes.filter(n=>n.textContent.toLowerCase().includes(text)):[];matches.forEach(n=>n.classList.add('match'));matchIndex=-1;counter.textContent=matches.length+' matches';}
 query.addEventListener('input',find);
 function nextMatch(){if(!matches.length)return;matchIndex=(matchIndex+1)%matches.length;const n=matches[matchIndex];selectNode(n);revealElement(n);counter.textContent=(matchIndex+1)+' / '+matches.length;}
 document.querySelector('#findnext').onclick=nextMatch;
 query.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nextMatch();}});
 document.querySelector('#clear').onclick=()=>{query.value='';find();document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));};
-function goHash(behavior='instant'){if(!location.hash)return;const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(el){revealElement(el,behavior);if(el.classList.contains('node'))selectNode(el);}}
+function goHash(behavior='instant'){
+  if(!location.hash)return;
+  let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
+  const el=document.getElementById(id);if(!el)return;
+  revealElement(el,behavior);
+  const section=el.closest('section');if(!section)return;
+  const stageIndex=sections.indexOf(section);
+  if(el===section){showDescription(stageIndex,descriptionState[stageIndex].index,true);return;}
+  if(el.classList.contains('node')){
+    selectNode(el);
+    const index=descriptionState[stageIndex].items.findIndex(item=>item.target===el);
+    if(index>=0)showDescription(stageIndex,index,false);
+  }
+}
 document.addEventListener('click',e=>{
   if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
-  const link=e.target.closest('a'), href=link?.getAttribute('href')||link?.getAttribute('xlink:href');
+  const link=e.target.closest('a'),href=link?.getAttribute('href')||link?.getAttribute('xlink:href');
   if(!href?.startsWith('#'))return;
-  if(!document.getElementById(decodeURIComponent(href.slice(1))))return;
-  e.preventDefault();
-  if(location.hash!==href)history.pushState(null,'',href);
-  goHash('smooth');
+  let id;try{id=decodeURIComponent(href.slice(1));}catch{return;}
+  if(!document.getElementById(id))return;
+  e.preventDefault();if(location.hash!==href)history.pushState(null,'',href);goHash('smooth');
 });
 window.addEventListener('hashchange',()=>requestAnimationFrame(()=>goHash()));
-window.addEventListener('resize',()=>{if(fitting)sizeCharts();showStage(sections[activeStage],'instant');});
-sizeCharts();setActiveStage(0);requestAnimationFrame(()=>goHash());
+window.addEventListener('resize',()=>{
+  const anchor=currentViewAnchor();
+  if(fitting)sizeCharts();
+  if(anchor)revealElement(anchor,'instant',anchor===descriptionTarget);
+  else if(!document.body.classList.contains('continuous'))showStage(sections[activeStage],'instant');
+  schedulePlacement();
+});
+new ResizeObserver(schedulePlacement).observe(document.querySelector('header'));
+document.querySelector('#all-stages').onclick=()=>{
+  const on=document.body.classList.toggle('continuous');
+  document.documentElement.classList.toggle('continuous-mode',on);
+  document.querySelector('#all-stages').textContent=on?'One stage ↔':'All stages ↓';
+  document.querySelector('#all-stages').setAttribute('aria-pressed',String(on));
+  sizeCharts();showStage(sections[activeStage],'instant');
+  if(descriptionsToggle.checked)showDescription(activeStage,descriptionState[activeStage].index,true);
+  schedulePlacement();
+};
+sizeCharts();setActiveStage(0);showDescription(0,0,true);requestAnimationFrame(()=>goHash());
 </script></body></html>

@@ -27,9 +27,21 @@ button:disabled:hover{background:white}
 .thread-key{font-size:11px}.thread-key b{padding:3px 7px;border-radius:3px;color:white;font-weight:500}.node:focus{outline:none}.node:focus>polygon,.node:focus>path{stroke:#ec9400;stroke-width:3}.node.match>path,.node.selected>path{stroke:#ec9400!important;stroke-width:3!important}.node.selected text{font-weight:revert}.key .event{border-top-style:dashed;color:#c69af3}
 body.continuous{height:auto;min-height:100dvh;display:block;overflow:auto}html:has(body.continuous){height:auto;overflow:auto}body.continuous header{position:sticky;top:0}body.continuous main{display:block;overflow:visible}body.continuous section{height:auto;display:block;scroll-margin-top:220px}body.continuous .viewport{max-height:none;overflow-x:auto;overflow-y:hidden}body.continuous .footer-key{position:static}
 @media print{body.continuous header{position:static}body.continuous .viewport{overflow:visible}}
+.viewport{position:relative}
+.description-toggle{display:inline-flex;align-items:center;gap:6px;color:#e2effb;font-size:12px;white-space:nowrap}
+.description-toggle input{accent-color:#f2b34d}
+.node.description-target>polygon,.node.description-target>path{stroke:#ec9400!important;stroke-width:4!important;filter:drop-shadow(0 0 4px #f0ae4b)}
+.node.description-target text{font-weight:700}
+.description-dialog{position:absolute;z-index:8;width:min(320px,calc(100% - 28px));padding:12px 14px;border:2px solid #d4861e;border-radius:10px;background:#fffdf7;color:#193047;box-shadow:0 8px 24px #11253b55;font-size:13px;line-height:1.45;pointer-events:none}
+.description-dialog::before{content:"";position:absolute;left:-12px;top:20px;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:12px solid #d4861e}
+.description-dialog::after{content:"";position:absolute;left:-8px;top:21px;border-top:9px solid transparent;border-bottom:9px solid transparent;border-right:10px solid #fffdf7}
+.description-dialog .dialog-heading{display:flex;justify-content:space-between;gap:12px;margin:0 0 6px;color:#85510d;font-size:10px;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
+.description-dialog p{margin:0}.description-dialog code{color:#155493;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
+.description-dialog[hidden]{display:none}
+@media(max-width:650px){.description-dialog{width:min(280px,calc(100% - 20px));font-size:12px}.description-dialog code{font-size:11px}}
 </style></head><body>
 <header><div class="topbar"><h1>Alloy · Part 3 · Log instance links flowchart</h1><a href="part-3-log-instance-link.html">Full write-up ↗</a><nav aria-label="Flowchart pages" style="display:flex;gap:6px;flex-wrap:wrap"><a href="part-1-command-execution-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">← Part 1</a><a href="part-2-instance-visualization-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">← Part 2</a></nav></div>
-<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → Swing event thread → log and handler</option><option value="phase-02">02 · Execute event → callback → manager thread → worker JVM</option><option value="phase-03">03 · Worker task → reporter → solve → resultSAT</option><option value="phase-04">04 · resultSAT → XML file → saved worker result</option><option value="phase-05">05 · SAT payload → process pipe → GUI callback</option><option value="phase-06">06 · Progress callbacks → saved offsets → replace status text</option><option value="phase-07">07 · Decode SAT → remember filename → result sentence</option><option value="phase-08">08 · logLink → label → listener → component style</option><option value="phase-09">09 · reallyLog → document insertion → Swing component display</option><option value="phase-10">10 · Buffered text → clearError → flush → ordered result</option><option value="phase-11">11 · Mouse press → saved XML destination → visualizer</option><option value="phase-12">12 · Task completion → divider → controls → optional auto-open</option><option value="phase-13">13 · Execute All summary links / metamodel link</option><option value="phase-14">14 · UNSAT / export / XML failure / worker failure</option><option value="phase-15">15 · Enumeration → overwrite XML → declare → forced reload</option><option value="phase-16">16 · Debug thread substitution / greedy reporter / Show Latest</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite">1 / 16</span></div><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><button id="all-stages" aria-pressed="false">All stages ↓</button><input id="query" type="search" placeholder="Find a method / file / parameter" aria-label="Find a method, filename, or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button><button id="print">Print</button></div>
+<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → Swing event thread → log and handler</option><option value="phase-02">02 · Execute event → callback → manager thread → worker JVM</option><option value="phase-03">03 · Worker task → reporter → solve → resultSAT</option><option value="phase-04">04 · resultSAT → XML file → saved worker result</option><option value="phase-05">05 · SAT payload → process pipe → GUI callback</option><option value="phase-06">06 · Progress callbacks → saved offsets → replace status text</option><option value="phase-07">07 · Decode SAT → remember filename → result sentence</option><option value="phase-08">08 · logLink → label → listener → component style</option><option value="phase-09">09 · reallyLog → document insertion → Swing component display</option><option value="phase-10">10 · Buffered text → clearError → flush → ordered result</option><option value="phase-11">11 · Mouse press → saved XML destination → visualizer</option><option value="phase-12">12 · Task completion → divider → controls → optional auto-open</option><option value="phase-13">13 · Execute All summary links / metamodel link</option><option value="phase-14">14 · UNSAT / export / XML failure / worker failure</option><option value="phase-15">15 · Enumeration → overwrite XML → declare → forced reload</option><option value="phase-16">16 · Debug thread substitution / greedy reporter / Show Latest</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite">1 / 16</span></div><label class="description-toggle"><input type="checkbox" id="descriptions" aria-label="Show node descriptions" checked><span id="description-state">Descriptions on</span></label><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><button id="all-stages" aria-pressed="false">All stages ↓</button><input id="query" type="search" placeholder="Find a method / file / parameter" aria-label="Find a method, filename, or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button><button id="print">Print</button></div>
 <div class="key"><span>IN · arguments</span><span>OUT · return</span><span>Δ · changed state</span><span>CALLER · call-site file</span><span>DEFINED · implementation file</span><span><i></i>call / next step</span><span><i class="ret"></i>return</span><span><i class="spawn"></i>thread / process dispatch</span><span><i class="event"></i>later event</span><span><i class="ipc"></i>process pipe</span><span><i class="err"></i>failure</span><span>↗ continuation · click node: connected edges</span><span>Mouse wheel · scroll diagram</span></div>
 <div class="key thread-key"><span><b style="background:#4d5569">T0 · Analyzer JVM · startup thread</b></span><span><b style="background:#175caa">T1 · Analyzer JVM · Swing event thread</b></span><span><b style="background:#96500d">T2 · Analyzer JVM · worker-manager thread</b></span><span><b style="background:#7950b2">T3 · worker JVM · main / task-reader thread</b></span><span><b style="background:#17745d">T4 · worker JVM · task thread [debug: T1]</b></span><span><b style="background:#63479b">C · same caller · normal T2 / debug or mouse T1</b></span></div></header>
 <main id="stages" aria-label="Log instance links stages"><section id="phase-01"><div class="stagebar"><span class="num">01</span><h2>Startup → Swing event thread → log and handler</h2><a href="#phase-02">Next stage →</a></div><div class="viewport" tabindex="0" aria-label="Scrollable stage 1"><div class="diagram"><svg role="img" aria-label="Startup → Swing event thread → log and handler" width="540pt" height="3904pt"
@@ -6711,7 +6723,7 @@ body.continuous{height:auto;min-height:100dvh;display:block;overflow:auto}html:h
 </g>
 </svg>
 </div></div></section></main>
-<div class="footer-key">Checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · November 13, 2026 · Part 3 · Offline SVG · ← → stages · C inherits caller · normal callback: T2, no EDT handoff · mouse press: T1</div>
+<div class="footer-key">Checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · November 13, 2026 · Part 3 · Offline SVG · ← → stages · ↑ ↓ descriptions · C inherits caller · normal callback: T2, no EDT handoff · mouse press: T1</div>
 <script>
 const sections=[...document.querySelectorAll('section')];
 const nodes=[...document.querySelectorAll('g.node')];
@@ -6722,99 +6734,384 @@ const previousStage=document.querySelector('#previous-stage'), nextStage=documen
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const stageNotes=[
   [
-        'In <code>SimpleGUI.java</code>, <code>main(args)</code> schedules GUI construction on Swing’s event thread. The constructor creates <code>SwingLogPanel</code> with the scroll pane, fonts, colors, and <code>this</code>. That last argument becomes <code>handler</code>, connecting future link presses to the Analyzer.'
+    [
+      "p01-main",
+      "We begin with the Analyzer’s startup. In <code>SimpleGUI.java</code>, the <code>main(args)</code> function schedules GUI construction on Swing’s event thread."
+    ],
+    [
+      "p01-panel",
+      "During that construction, the constructor creates <code>SwingLogPanel</code> with the scroll pane, fonts, and colors. Passing <code>this</code> lets the log panel ask the Analyzer to open an instance when someone clicks a link. With the panel ready, we can follow what happens when the user executes a command."
+    ]
   ],
   [
-    'An Execute action reaches <code>doRun(commandIndex)</code> in <code>SimpleGUI.java</code>. It constructs <code>SimpleCallback1(this, null, log, verbosity, latestName, latestVersion)</code>.',
-    'The important arguments are the GUI controller and <code>log</code>, stored inside the callback as <code>gui</code> and <code>span</code>. The null marks ordinary execution. Then <code>WorkerEngine.run(task, memory, stack, "", cb)</code> sends the task to the worker. The callback stays in the Analyzer, ready to receive results.'
+    [
+      "p02-latest",
+      "That Execute action reaches <code>doRun(commandIndex)</code> in <code>SimpleGUI.java</code>. This method prepares the task and the callback that will receive its messages."
+    ],
+    [
+      "p02-callback",
+      "To receive those messages, it constructs <code>SimpleCallback1(this, null, log, verbosity, latestName, latestVersion)</code>. The GUI controller and log panel are stored as <code>gui</code> and <code>span</code>. The null argument marks ordinary command execution."
+    ],
+    [
+      "p02-dispatch",
+      "With the callback in place, <code>WorkerEngine.run(task, memory, stack, \"\", cb)</code> sends the task to the worker JVM. The callback stays in the Analyzer. We now follow the task into the worker to see how it reports a satisfying result."
+    ]
   ],
   [
-    'In <code>SimpleReporter.java</code>, <code>SimpleTask1.run(out)</code> constructs <code>SimpleReporter(out, recordKodkod)</code>. Here, <code>out</code> carries worker messages back to the Analyzer.',
-    'After solving, <code>A4Solution.java</code> calls <code>rep.resultSAT(cmd, time, this)</code>: the command, elapsed time, and solved solution. Java selects the override in <code>SimpleReporter</code>. A satisfying run gives an instance; a satisfying check gives a counterexample. Both enter this same reporting method.'
+    [
+      "p03-task",
+      "Inside the worker, <code>task.run(y)</code> reaches <code>SimpleTask1.run(out)</code> in <code>SimpleReporter.java</code>. The <code>out</code> argument carries messages back toward the Analyzer."
+    ],
+    [
+      "p03-reporter",
+      "The task passes that output callback to <code>SimpleReporter(out, recordKodkod)</code>. This reporter receives progress and result notifications as the command is solved."
+    ],
+    [
+      "p03-sat",
+      "After solving, <code>rep.resultSAT(cmd, time, this)</code> is called by passing the command, elapsed time, and solved solution. Java selects the override in <code>SimpleReporter</code>. A satisfying run gives an instance. A satisfying check gives a counterexample. Both enter this same reporting method, which first prepares the XML file."
+    ]
   ],
   [
-    'In <code>SimpleReporter.resultSAT</code>, the filename becomes <code>tempfile + ".xml"</code>. For command zero, an example is <code>/tmp/example/0.cnf.xml</code>. This is an XML instance file.',
-    'The reporter calls <code>writeXML(this, latestModule, filename, sol, sources)</code>. Its helper passes the reporter, path, reachable functions, and sources to <code>sol.writeXML</code> in <code>A4Solution.java</code>. That opens a writer and calls <code>A4SolutionWriter.writeInstance</code>.',
-    'After writing succeeds, the reporter saves the solution and filename for later enumeration. Now it can send the destination that the link will use.'
+    [
+      "p04-sat",
+      "Inside <code>SimpleReporter.resultSAT</code>, the filename becomes <code>tempfile + \".xml\"</code>. This names the file that the future instance link will open."
+    ],
+    [
+      "p04-helper",
+      "To create that file, the reporter calls <code>writeXML(this, latestModule, filename, sol, sources)</code>. These arguments provide the reporter, model, destination, solved solution, and source files."
+    ],
+    [
+      "p04-filename",
+      "The helper then calls <code>sol.writeXML</code> in <code>A4Solution.java</code>, passing the reporter, filename, reachable functions, and sources."
+    ],
+    [
+      "p04-instance",
+      "After opening a writer, the next overload calls <code>A4SolutionWriter.writeInstance</code>. This writes the instance’s XML representation to the selected file."
+    ],
+    [
+      "p04-remember",
+      "Once writing succeeds, the reporter remembers the solution and its filename for later enumeration. It can now send that filename to the Analyzer, so we next follow the message across the process boundary."
+    ]
   ],
   [
-    'The reporter now calls <code>cb("sat", check, expects, filename, formulaDestination, elapsed)</code> in <code>SimpleReporter.java</code>. These six arguments become an array.',
-    'The tag selects SAT handling. The check flag chooses instance or counterexample wording. The expectation controls an optional phrase. The filename identifies the XML instance. The formula destination is optional diagnostic text, and elapsed supplies the displayed milliseconds.',
-    'The helper calls its stored callback, and the adapter in <code>WorkerEngine.java</code> serializes the array with <code>writeObject</code>. The Analyzer manager reads it with <code>readObject</code> and invokes <code>SimpleCallback1.callback(msg)</code>.',
-    'The GUI receives a filename and metadata. The solution itself stays in the worker, with its saved representation in the XML file.'
+    [
+      "p05-sat",
+      "To send the result, the reporter calls <code>cb(\"sat\", check, expects, filename, formulaDestination, elapsed)</code> in <code>SimpleReporter.java</code>. These six arguments become an array. The tag selects SAT handling. The check flag chooses instance or counterexample wording. The expectation controls an optional phrase. The filename identifies the XML instance. The formula destination is optional diagnostic text, and elapsed supplies the displayed milliseconds."
+    ],
+    [
+      "p05-callback",
+      "The helper passes this array to its stored callback through <code>cb.callback(objs)</code>. That callback is the worker’s output adapter."
+    ],
+    [
+      "p05-write",
+      "The adapter in <code>WorkerEngine.java</code> then calls <code>xx.writeObject(x)</code>. This serializes the message array into the pipe leading to the Analyzer."
+    ],
+    [
+      "p05-read",
+      "At the other end, the Analyzer’s manager thread calls <code>sub2main.readObject()</code>. This reconstructs the message as an object in the Analyzer JVM."
+    ],
+    [
+      "p05-receive",
+      "For this non-null message, the manager invokes <code>callback.callback(x)</code>, reaching <code>SimpleCallback1.callback(msg)</code>. The GUI receives a filename and metadata. The solution itself stays in the worker, and its saved representation is in the XML file. Before following the SAT branch, we need to see how this callback manages temporary log text."
+    ]
   ],
   [
-    'Before inserting the result, the callback removes temporary progress text. In <code>SimpleReporter.java</code>, it saves document lengths such as <code>len3</code>, marking the position before “Solving.”',
-    'A progress message tagged <code>R3</code> calls <code>span.setLength(len3)</code> and writes “Writing the XML file.” The SAT branch later truncates back to that same position.',
-    'Inside <code>SwingLogPanel.java</code>, <code>setLength</code> removes the document suffix beyond the supplied offset. Earlier output remains. These saved numbers are character positions, allowing temporary status to become a lasting result sentence.'
+    [
+      "p06-solve",
+      "To understand that temporary text, we step back to the progress callbacks received during solving. In <code>SimpleReporter.java</code>, the solve-message branch saves <code>len3</code> just before writing “Solving.” This number marks a character position in the log."
+    ],
+    [
+      "p06-r3",
+      "When the later <code>R3</code> message arrives, the callback calls <code>span.setLength(len3)</code> and writes “Writing the XML file.” This replaces the earlier solving status."
+    ],
+    [
+      "p06-length",
+      "That replacement works because <code>SwingLogPanel.setLength(newLength)</code> accepts the character position where the log should end."
+    ],
+    [
+      "p06-remove",
+      "It uses <code>doc.remove(newLength, n-newLength)</code> to remove everything after that position. Earlier output remains. With this cleanup mechanism understood, we can return to the SAT message and see the lasting result replace the temporary status."
+    ]
   ],
   [
-    'This is the central result-handling code. In <code>SimpleReporter.java</code>, <code>SimpleCallback1.callback</code> enters the branch where the array tag equals <code>"sat"</code>. It reads the check flag, expectation, XML filename, and diagnostic destination.',
-    'It registers file cleanup and calls <code>gui.doSetLatest(filename)</code>. In <code>SimpleGUI.java</code>, that sets <code>latestInstance</code> and <code>latestAutoInstance</code>. Then <code>span.setLength(len3)</code> removes the temporary status.',
-    'The key call is <code>span.logLink(chk ? "Counterexample" : "Instance", "XML: " + filename)</code>. The first argument supplies the visible word. The second supplies the destination, with an XML routing prefix.',
-    'Next, the callback adds “found,” the predicate or assertion wording, the expectation, and timing. Its final <code>span.flush()</code> commits the remaining text. These methods update state and the document; they return no solution object to the GUI.'
+    [
+      "p07-decode",
+      "Back in <code>SimpleCallback1.callback</code>, the <code>\"sat\"</code> tag selects the result branch. It reads the check flag, expectation, XML filename, and diagnostic destination from the message array."
+    ],
+    [
+      "p07-remember",
+      "Using that filename, the callback records the result and schedules the temporary file for cleanup when the application exits."
+    ],
+    [
+      "p07-latest",
+      "It then calls <code>gui.doSetLatest(filename)</code>. In <code>SimpleGUI.java</code>, this sets <code>latestInstance</code> and <code>latestAutoInstance</code>, remembering which instance was most recently produced."
+    ],
+    [
+      "p07-trim",
+      "With the filename remembered, <code>span.setLength(len3)</code> removes the temporary status at the saved position. The callback can now write the result sentence there."
+    ],
+    [
+      "p07-link",
+      "The key call is <code>span.logLink(chk ? \"Counterexample\" : \"Instance\", \"XML: \" + filename)</code>. Its first argument supplies the visible word. Its second supplies the destination, beginning with the XML routing prefix."
+    ],
+    [
+      "p07-found",
+      "After that link, the callback adds “found,” the predicate or assertion wording, the expectation, and the elapsed time."
+    ],
+    [
+      "p07-flush",
+      "Finally, <code>span.flush()</code> commits the remaining queued text. To understand how the clickable word itself enters this sentence, we now follow the earlier <code>logLink</code> call inside the log panel."
+    ]
   ],
   [
-    'Now <code>SwingLogPanel.logLink(link, linkDestination)</code> receives those two strings. If the destination is empty, it queues ordinary text. Otherwise, it clears temporary errors and writes any queued prefix.',
-    'It obtains the text pane’s <code>StyledDocument</code> and creates a link style. <code>ourAntiAlias.label(link)</code> returns a label containing the visible word. <code>OurUtil.make</code> applies its bold font and blue color.',
-    'Back in <code>SwingLogPanel.java</code>, <code>label.addMouseListener</code> installs a listener that remembers <code>linkDestination</code>. On a later mouse press, that listener can pass the saved string to the GUI handler.',
-    'Finally, <code>StyleConstants.setComponent(linkStyle, label)</code> attaches the label to the style. <code>reallyLog(".", linkStyle)</code> inserts a placeholder using that style. The document can now display the clickable label at that position. The method moves the caret to the end and returns.'
+    [
+      "p08-entry",
+      "Inside <code>SwingLogPanel.java</code>, <code>logLink(link, linkDestination)</code> receives the visible word and destination. An empty destination gives ordinary text. For our XML destination, it continues building a clickable label."
+    ],
+    [
+      "p08-clear",
+      "First, <code>clearError()</code> removes temporary error text and writes any queued prefix. This ensures the prefix appears before the link."
+    ],
+    [
+      "p08-style",
+      "Next, the method obtains the text pane’s <code>StyledDocument</code> and creates a link style. This style will tell Swing how to display the inserted content."
+    ],
+    [
+      "p08-label",
+      "For the visible content, <code>OurAntiAlias.label(link)</code> returns a label containing “Instance” or “Counterexample.”"
+    ],
+    [
+      "p08-font",
+      "The enclosing <code>OurUtil.make</code> call gives that label its bold font and link color."
+    ],
+    [
+      "p08-listener",
+      "To make the label respond to a press, <code>label.addMouseListener</code> installs a listener that remembers <code>linkDestination</code>. A later mouse press can pass this saved string to the GUI handler."
+    ],
+    [
+      "p08-component",
+      "The method then calls <code>StyleConstants.setComponent(linkStyle, label)</code>. This attaches the label to the style that will be used for insertion."
+    ],
+    [
+      "p08-insert",
+      "With the label attached, <code>reallyLog(\".\", linkStyle)</code> inserts a placeholder using that style. We now follow this call to the document insertion that makes the link visible."
+    ]
   ],
   [
-    'The actual content change happens in <code>SwingLogPanel.reallyLog(text, style)</code>. For our link, text is one period and style contains the label.',
-    'Because this text has no newline, it calls <code>doc.insertString(doc.getLength(), text, style)</code>: append at the document’s end, using the supplied style.',
-    'Swing displays the embedded label in that character position. The method updates <code>lastSize</code>, marking the end of non-red content. The visible link has now entered the log’s content model.'
+    [
+      "p09-really",
+      "That call enters <code>SwingLogPanel.reallyLog(text, style)</code>. Here, text is one full stop, and style contains the label we just built."
+    ],
+    [
+      "p09-insert",
+      "Because this placeholder has no newline, the method calls <code>doc.insertString(doc.getLength(), text, style)</code>. This appends the character at the document’s end using the supplied style."
+    ],
+    [
+      "p09-swing",
+      "Swing’s document and view system uses the component in that style to display the label at the inserted character position."
+    ],
+    [
+      "p09-length",
+      "The method also updates <code>lastSize</code> to mark the end of non-red content. The link is now part of the log’s content. To complete the sentence around it, we next look at how ordinary text reaches the same document."
+    ]
   ],
   [
-    'Regular text takes a slightly different route. In <code>SwingLogPanel.java</code>, <code>log(msg)</code> adds each string to a pending list. It waits to insert it.',
-    'When <code>logLink</code> calls <code>clearError()</code>, queued spaces and words are written before the label. At the end of the result callback, <code>flush()</code> calls <code>clearError()</code> again. That sends each pending string to <code>reallyLog(msg, styleRegular)</code> and clears the list.',
-    'This ordering produces “Instance found,” followed by consistency wording and milliseconds. The flush commits queued text into the document.'
+    [
+      "p10-log",
+      "The surrounding words take the buffering route in <code>SwingLogPanel.log(msg)</code>. Each call adds its string to a pending list, keeping the strings in order."
+    ],
+    [
+      "p10-flush",
+      "At the end of the result callback, <code>flush()</code> checks for pending text and calls <code>clearError()</code> when needed."
+    ],
+    [
+      "p10-clear",
+      "The same <code>clearError()</code> method also runs before link insertion. It removes any red suffix before writing the pending strings."
+    ],
+    [
+      "p10-write",
+      "For each pending string, it calls <code>reallyLog(msg, styleRegular)</code>. This uses the document insertion method we just traced, with an ordinary text style."
+    ],
+    [
+      "p10-empty",
+      "After writing those strings, <code>batch.clear()</code> empties the queue. Together, buffering, link insertion, and flushing produce the complete result sentence. The user can now press its visible instance link."
+    ]
   ],
   [
-    'A later user action starts a new call chain on Swing’s event thread. In <code>SwingLogPanel.java</code>, <code>mousePressed(e)</code> calls <code>handler.doVisualize(linkDestination)</code>. The destination is the string captured when this particular label was created.',
-    'In <code>SimpleGUI.java</code>, <code>doVisualize</code> recognizes the XML prefix, removes it, and canonicalizes the remaining filename. It calls <code>viz.loadXML(path, false, 0)</code>. The arguments identify the saved file, request normal loading rather than a forced reload, and select state zero. <code>VizGUI.java</code> reads the instance when needed and updates the display. That completes the link’s purpose.'
+    [
+      "p11-press",
+      "That later press starts a new call chain on Swing’s event thread. In <code>SwingLogPanel.java</code>, the label’s <code>mousePressed(e)</code> listener uses the destination captured when the label was created."
+    ],
+    [
+      "p11-visualize",
+      "It passes that string to <code>handler.doVisualize(linkDestination)</code>. Because the panel received the Analyzer as its handler during startup, this reaches <code>SimpleGUI.doVisualize</code>."
+    ],
+    [
+      "p11-canon",
+      "The method recognizes the XML prefix and removes it. It then calls <code>Util.canon(arg.substring(5))</code> to obtain the canonical filename."
+    ],
+    [
+      "p11-load",
+      "Using that path, it calls <code>viz.loadXML(canonicalPath, false, 0)</code>. These arguments identify the file, request normal loading, and select state zero."
+    ],
+    [
+      "p11-update",
+      "In <code>VizGUI.java</code>, the loading path reads the instance when needed and reaches <code>updateDisplay()</code>. This completes the link’s purpose. Having followed the user’s press, we can now return to what happens when the original worker task finishes."
+    ]
   ],
   [
-    'Task completion is separate from link creation. In <code>WorkerEngine.java</code>, a null marker makes the manager call <code>callback.done()</code>.',
-    'In <code>SimpleReporter.java</code>, <code>done</code> adds a divider, flushes the log, and calls <code>gui.doStop()</code>. Zero means normal completion. <code>SimpleGUI.java</code> restores the controls and may automatically visualize the saved filename. The clickable link already exists whether that automatic display preference is enabled or disabled.'
+    [
+      "p12-complete",
+      "Returning to task completion, the worker writes a null marker and flushes its output stream. This tells the Analyzer that the task has finished."
+    ],
+    [
+      "p12-done",
+      "When the manager reads that marker, it calls <code>callback.done()</code>. This reaches <code>SimpleCallback1.done()</code> in <code>SimpleReporter.java</code>."
+    ],
+    [
+      "p12-divider",
+      "The completion callback adds a divider and flushes the log, finishing the output for this task."
+    ],
+    [
+      "p12-stop",
+      "It then calls <code>gui.doStop(0)</code>. Zero means normal completion. In <code>SimpleGUI.java</code>, this restores the controls and checks whether the saved instance should open automatically."
+    ],
+    [
+      "p12-visualize",
+      "If automatic display is requested, <code>doVisualize(f)</code> opens the saved filename through the loading chain we just traced. The clickable link already exists either way. With the main route complete, we can briefly look at other paths that reuse the link mechanism."
+    ]
   ],
   [
-    'Execute All adds summary links. In <code>SimpleReporter.java</code>, the task sends <code>cb("link", label, "XML: " + filename)</code>. The GUI callback passes the label and destination directly to <code>span.logLink</code>.',
-    'The metamodel branch likewise calls <code>logLink("Metamodel", "XML: " + outf)</code>. These paths reuse the same label, listener, and document-insertion mechanism.'
+    [
+      "p13-summary",
+      "One such path is Execute All. In <code>SimpleReporter.java</code>, the task sends <code>cb(\"link\", label, \"XML: \" + filename)</code> for each summary link."
+    ],
+    [
+      "p13-receive",
+      "After the message crosses the same worker pipe, the GUI callback passes the label and destination directly to <code>span.logLink</code>."
+    ],
+    [
+      "p13-metareceive",
+      "The metamodel path also calls <code>logLink(\"Metamodel\", \"XML: \" + outf)</code>. Both paths reuse the label, listener, and document insertion we have already followed. We next consider the cases where a normal instance link cannot be created."
+    ]
   ],
   [
-    'In <code>SimpleReporter.java</code>, <code>resultUNSAT</code> leads to a no-instance message, possibly with diagnostic links.',
-    'If XML writing fails, <code>resultSAT</code> sends an error and returns before its normal SAT message. The ordinary instance-link branch therefore never runs.'
+    [
+      "p14-unsat",
+      "For an unsatisfiable result, <code>resultUNSAT</code> in <code>SimpleReporter.java</code> starts a different reporting path."
+    ],
+    [
+      "p14-receive",
+      "Its message makes the GUI callback write a no-instance result. Diagnostic links may still appear, using the same link-building method."
+    ],
+    [
+      "p14-bold",
+      "A failure while writing XML takes another path. <code>resultSAT</code> sends an error message and returns before sending its normal SAT message. The ordinary instance-link branch therefore never runs. When XML writing does succeed, however, the saved file can later support another instance, which is our next case."
+    ]
   ],
   [
-    'In <code>SimpleReporter.java</code>, <code>SimpleTask2</code> overwrites the XML file and sends <code>cb("declare", filename)</code>.',
-    'The callback remembers the filename; completion forces a reload. Existing links now target the updated file. This branch appends no new SAT link.'
+    [
+      "p15-task",
+      "That next-instance request runs <code>SimpleTask2</code> in <code>SimpleReporter.java</code>. It works from the solution retained in the worker."
+    ],
+    [
+      "p15-write",
+      "After obtaining another solution, it writes that solution to the existing XML filename through <code>writeXML</code>."
+    ],
+    [
+      "p15-declare",
+      "It then sends <code>cb(\"declare\", filename)</code>, telling the Analyzer which file now holds the updated instance."
+    ],
+    [
+      "p15-latest",
+      "The callback remembers this filename through <code>gui.doSetLatest</code>."
+    ],
+    [
+      "p15-reload",
+      "When the task finishes, <code>viz.loadXML(f, true, 0)</code> or the corresponding overload forces a reload. Existing links still point to this updated file, so this branch needs no new SAT link. We can now close with the related execution variants and the complete reporting chain."
+    ]
   ],
   [
-    'Debug mode uses <code>WorkerEngine.runLocally(task, cb)</code> on the caller’s thread.',
-    'Our chain is complete: <code>resultSAT</code> saves XML and sends its filename; <code>SimpleCallback1.callback</code> decodes it; <code>logLink</code> builds the clickable label; <code>reallyLog</code> inserts it. A later press calls <code>doVisualize</code> to open the instance. Thank you.'
+    [
+      "p16-local",
+      "The first variant is debug mode. <code>WorkerEngine.runLocally(task, cb)</code> runs the task on the caller’s thread. The main reporting steps still apply, with the thread substitutions shown in the chart."
+    ],
+    [
+      "p16-report",
+      "The greedy-command path also joins the reporting chain through <code>rep.resultSAT(selectedCmd, totalElapsed, chosenSolution)</code>. It passes the selected command, total elapsed time, and chosen solution to the original reporter."
+    ],
+    [
+      "p16-visualize",
+      "Finally, Show Latest calls <code>doVisualize(latestInstance)</code>, using the filename remembered during reporting. This brings us back to the full chain. The reporter saves XML and sends its filename. The GUI callback decodes the message and calls <code>logLink</code>. The log panel builds a label and inserts it into the document. A later press passes its saved destination to <code>doVisualize</code>, opening the instance."
+    ]
   ]
 ];
 let activeStage=0;
 let zoom=1, fitting=false, matches=[], matchIndex=-1;
-function renderStageNote(section){
-  const notes=stageNotes[sections.indexOf(section)];
-  section.querySelector('.stage-note-text').innerHTML=notes.map(note=>'<p class="stage-note-block">'+note+'</p>').join('');
-}
-sections.forEach(section=>{
-  const panel=document.createElement('div');
-  panel.className='stage-notes';
-  panel.setAttribute('aria-label','Stage notes');
-  panel.innerHTML='<div class="stage-note-heading"><span>Stage notes</span></div><div class="stage-note-text"></div>';
-  section.append(panel);
-  renderStageNote(section);
+const descriptionsToggle=document.querySelector('#descriptions');
+const descriptionState=sections.map(()=>({items:[],index:0,dialog:null,target:null}));
+// Each entry explicitly pairs a presentation paragraph with its diagram node.
+// Consecutive paragraphs about the same node share a callout, keeping their breaks.
+sections.forEach((section,stageIndex)=>{
+  const items=[];
+  for(const [nodeId,html] of stageNotes[stageIndex]){
+    const target=document.getElementById(nodeId);
+    if(!target||target.closest('section')!==section)throw new Error('Missing description node: '+nodeId);
+    const last=items[items.length-1];
+    if(last&&last.target===target){
+      last.html+='<br><br>'+html;
+    }else{
+      items.push({html,target});
+    }
+  }
+  const viewport=section.querySelector('.viewport');
+  const dialog=document.createElement('aside');dialog.className='description-dialog';dialog.hidden=true;dialog.setAttribute('role','status');dialog.setAttribute('aria-live','polite');
+  dialog.innerHTML='<div class="dialog-heading"><span>Stage description</span><span class="dialog-count"></span></div><p></p>';
+  viewport.append(dialog);descriptionState[stageIndex]={items,index:0,dialog,target:null};
 });
+function placeDescription(stageIndex){
+  const state=descriptionState[stageIndex],target=state.target,dialog=state.dialog;if(!target||dialog.hidden)return;
+  const viewport=target.closest('.viewport'),frame=viewport.getBoundingClientRect(),box=target.getBoundingClientRect();
+  const x=box.right-frame.left+viewport.scrollLeft+14;
+  const y=box.top-frame.top+viewport.scrollTop+Math.max(8,(box.height-dialog.offsetHeight)/2);
+  dialog.style.left=Math.max(8,x)+'px';dialog.style.top=Math.max(8,Math.min(y,viewport.scrollHeight-dialog.offsetHeight-8))+'px';
+}
+function showDescription(stageIndex,index,scrollToTarget=true){
+  const state=descriptionState[stageIndex];if(!state)return;
+  state.index=Math.max(0,Math.min(state.items.length-1,index));
+  document.querySelectorAll('.description-target').forEach(node=>node.classList.remove('description-target'));
+  descriptionState.forEach(entry=>{entry.dialog.hidden=true;entry.target=null;});
+  if(!descriptionsToggle.checked)return;
+  const item=state.items[state.index];if(!item){state.dialog.hidden=true;return;}
+  state.target=item.target;state.dialog.querySelector('.dialog-count').textContent=(state.index+1)+' / '+state.items.length;
+  state.dialog.querySelector('p').innerHTML=item.html;state.dialog.hidden=false;state.target.classList.add('description-target');selectNode(state.target);
+  if(scrollToTarget)revealDescriptionTarget(state.target);
+  requestAnimationFrame(()=>placeDescription(stageIndex));
+}
+function revealDescriptionTarget(target){
+  const section=target.closest('section');showStage(section,'smooth');
+  if(document.body.classList.contains('continuous')){target.scrollIntoView({block:'center',inline:'center',behavior:reducedMotion.matches?'instant':'smooth'});return;}
+  const viewport=section.querySelector('.viewport'),frame=viewport.getBoundingClientRect(),box=target.getBoundingClientRect();
+  const left=viewport.scrollLeft+box.left-frame.left-24;
+  const top=viewport.scrollTop+box.top-frame.top+(box.height-viewport.clientHeight)/2;
+  viewport.scrollTo({left:Math.max(0,left),top:Math.max(0,top),behavior:reducedMotion.matches?'instant':'smooth'});
+}
+function moveDescription(direction){
+  const state=descriptionState[activeStage];if(!state?.items.length)return;
+  showDescription(activeStage,state.index+direction,true);
+}
+descriptionState.forEach((state,index)=>{
+  const viewport=sections[index].querySelector('.viewport');viewport.addEventListener('scroll',()=>placeDescription(index),{passive:true});
+});
+descriptionsToggle.addEventListener('change',()=>{document.querySelector('#description-state').textContent=descriptionsToggle.checked?'Descriptions on':'Descriptions off';showDescription(activeStage,descriptionState[activeStage].index,descriptionsToggle.checked);});
 function setActiveStage(index){
+  const changed=index!==activeStage;
   activeStage=index;
   stageSelect.value=sections[index].id;
   previousStage.disabled=index===0;
   nextStage.disabled=index===sections.length-1;
   document.querySelector('#stage-position').textContent=(index+1)+' / '+sections.length;
+  if(changed&&descriptionState[index]?.items.length)showDescription(index,0,false);
 }
 function showStage(section,behavior='smooth'){
   if(document.body.classList.contains('continuous')){setActiveStage(sections.indexOf(section));window.scrollTo({top:section.getBoundingClientRect().top+window.scrollY-document.querySelector('header').offsetHeight,behavior:reducedMotion.matches?'instant':behavior});return;}
@@ -6824,6 +7121,7 @@ function showStage(section,behavior='smooth'){
 function navigateStage(index){
   const section=sections[Math.max(0,Math.min(sections.length-1,index))];
   showStage(section);
+  showDescription(sections.indexOf(section),0,true);
   history.replaceState(null,'','#'+section.id);
 }
 previousStage.onclick=()=>navigateStage(activeStage-1);
@@ -6831,6 +7129,9 @@ nextStage.onclick=()=>navigateStage(activeStage+1);
 document.addEventListener('keydown',e=>{
   const editing=e.target instanceof Element&&e.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"]');
   if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||editing)return;
+  if(descriptionsToggle.checked&&(e.key==='ArrowDown'||e.key==='ArrowUp')){
+    e.preventDefault();moveDescription(e.key==='ArrowDown'?1:-1);return;
+  }
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
     const direction=e.key==='ArrowLeft'?-1:1;
     if(activeStage+direction<0||activeStage+direction>=sections.length)return;
@@ -6888,8 +7189,8 @@ document.addEventListener('click',e=>{
   goHash('smooth');
 });
 window.addEventListener('hashchange',()=>goHash());
-window.addEventListener('resize',()=>{if(fitting)sizeCharts();showStage(sections[activeStage],'instant');});
-sizeCharts();setActiveStage(0);requestAnimationFrame(()=>goHash());
+window.addEventListener('resize',()=>{if(fitting)sizeCharts();showStage(sections[activeStage],'instant');placeDescription(activeStage);});
+sizeCharts();setActiveStage(0);showDescription(0,0,false);requestAnimationFrame(()=>goHash());
 
 document.querySelector('#print').onclick=()=>window.print();
 document.querySelector('#all-stages').onclick=()=>{const on=document.body.classList.toggle('continuous');document.querySelector('#all-stages').textContent=on?'One stage ↔':'All stages ↓';document.querySelector('#all-stages').setAttribute('aria-pressed',String(on));sizeCharts();showStage(sections[activeStage],'instant');};

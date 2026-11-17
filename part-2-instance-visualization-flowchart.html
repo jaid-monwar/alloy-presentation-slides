@@ -13,23 +13,40 @@ section{display:flex;flex-direction:column;flex:0 0 100%;min-width:0;height:100%
 .footer-key{flex:none;padding:7px 22px;border-top:1px solid #ccd9e6}
 .stage-navigation{display:flex;align-items:center;gap:8px;min-width:0;max-width:100%}
 #stage{min-width:0;flex:1}
-.stage-notes{flex:none;min-height:88px;padding:9px 22px 11px;border-top:1px solid #ccd9e6;background:#f8fafc;color:#193047;text-align:center}
-.stage-note-heading{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:4px;color:#526a84;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.stage-note-text{margin:0;font-size:13px;line-height:1.4}
-.stage-note-block{margin:0 0 5px}
-.stage-note-block:last-child{margin-bottom:0}
-.stage-note-text code{color:#155493;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
+
+
+
+
+
+
 button:disabled{opacity:.45;cursor:default}
 button:disabled:hover{background:white}
-@media(max-width:650px){header{padding:10px 12px}.key{font-size:10px}#stage{max-width:100%}#query{width:165px}.viewport{padding:10px}.stagebar{padding:10px 12px}.stage-notes{padding:8px 12px 10px;min-height:82px}.footer-key{padding:6px 12px}h1{font-size:16px}h2{font-size:14px}}
+@media(max-width:650px){header{padding:10px 12px}.key{font-size:10px}#stage{max-width:100%}#query{width:165px}.viewport{padding:10px}.stagebar{padding:10px 12px}.footer-key{padding:6px 12px}h1{font-size:16px}h2{font-size:14px}}
 @media print{html,body{height:auto;overflow:visible}body,main{display:block}main{overflow:visible}header{position:static;background:white;color:black;box-shadow:none}.controls,.topbar a,.key,.stagebar a{display:none}section{display:block;height:auto;break-before:page}.viewport{overflow:visible;background:none;padding:0}.diagram{min-width:0;display:block}.diagram svg{max-width:100%;height:auto!important}.stagebar{position:static}h1{font-size:20px}}
 
 .thread-key{font-size:11px}.thread-key b{padding:3px 7px;border-radius:3px;color:white;font-weight:500}.node:focus{outline:none}.node:focus>polygon,.node:focus>path{stroke:#ec9400;stroke-width:3}.node.match>path,.node.selected>path{stroke:#ec9400!important;stroke-width:3!important}.node.selected text{font-weight:revert}.key .event{border-top-style:dashed;color:#c69af3}
 body.continuous{height:auto;min-height:100dvh;display:block;overflow:auto}html:has(body.continuous){height:auto;overflow:auto}body.continuous header{position:sticky;top:0}body.continuous main{display:block;overflow:visible}body.continuous section{height:auto;display:block;scroll-margin-top:220px}body.continuous .viewport{max-height:none;overflow-x:auto;overflow-y:hidden}body.continuous .footer-key{position:static}
 @media print{body.continuous header{position:static}body.continuous .viewport{overflow:visible}}
+
+/* Node descriptions use a separate HTML layer; SVG content stays unchanged. */
+.description-toggle{display:inline-flex;align-items:center;gap:6px;color:#e2effb;font-size:12px;white-space:nowrap}
+.description-toggle input{accent-color:#f2b34d}
+.viewport{position:relative}
+body.descriptions-enabled .diagram{padding-left:340px;padding-right:340px}
+body.continuous{overflow:visible}
+.node.description-target>polygon,.node.description-target>path,.node.description-target>g>a>polygon:last-child,.node.description-target>g>a>path{stroke:#dc840b!important;stroke-width:4!important;filter:drop-shadow(0 0 3px #f0ae4b)}
+.description-dialog{position:absolute;z-index:8;width:320px;box-sizing:border-box;padding:14px 16px;border:2px solid #d4861e;border-left-width:6px;border-radius:12px;background:#fff9e9;color:#193047;box-shadow:0 8px 24px #11253b40;font-size:14px;line-height:1.5;pointer-events:none;overflow-wrap:anywhere}
+.description-dialog::before{content:"";position:absolute;left:-15px;top:var(--arrow-y,24px);border-top:9px solid transparent;border-bottom:9px solid transparent;border-right:12px solid #d4861e}
+.description-dialog[data-side="left"]::before{left:auto;right:-14px;border-right:0;border-left:12px solid #d4861e}
+.description-dialog .dialog-heading{display:flex;justify-content:space-between;gap:12px;margin:0 0 7px;color:#85510d;font-size:11px;font-weight:750;letter-spacing:.05em;text-transform:uppercase}
+.description-dialog p{margin:0}.description-dialog code{color:#155493;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
+.description-dialog[hidden],.description-extent[hidden]{display:none}
+.description-extent{position:absolute;width:1px;height:1px;visibility:hidden;pointer-events:none}
+@media(max-width:650px){.description-dialog{width:260px;font-size:13px;padding:10px 12px}.description-dialog code{font-size:11px}}
+@media print{.description-dialog,.description-extent{display:none!important}.node.description-target>polygon,.node.description-target>path{filter:none}}
 </style></head><body>
 <header><div class="topbar"><h1>Alloy · Part 2 · Instance visualization flowchart</h1><a href="part-2-instance-visualization.html">Full write-up ↗</a><nav aria-label="Flowchart pages" style="display:flex;gap:6px;flex-wrap:wrap"><a href="part-1-command-execution-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">← Part 1</a><a href="part-3-log-instance-link-flowchart.html" style="padding:5px 9px;border:1px solid #7890a9;border-radius:6px;color:#fff;text-decoration:none">Part 3 →</a></nav></div>
-<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → hidden visualizer → registered actions</option><option value="phase-02">02 · SAT result → reporter → UTF-8 XML writer</option><option value="phase-03">03 · XML contents → signatures → fields → tuples</option><option value="phase-04">04 · Worker message / completion → GUI callback → display request</option><option value="phase-05">05 · Manual display / XML dispatch / debug-thread branch</option><option value="phase-06">06 · loadXML → parse pane(s) → preserve/rebuild VizState</option><option value="phase-07">07 · XMLNode → A4SolutionReader → declarations and tuples</option><option value="phase-08">08 · XML reconstruction solve overload → no SAT search</option><option value="phase-09">09 · Selected state → types / atoms / sets / relations → AlloyInstance</option><option value="phase-10">10 · VizState defaults / data replacement → updateDisplay → mode choice</option><option value="phase-11">11 · VizGraphPanel → projection selectors → cached GraphViewer</option><option value="phase-12">12 · StaticProjector → remove selected columns → visible slice</option><option value="phase-13">13 · StaticGraphMaker → relation pass / atom pass → GraphNode</option><option value="phase-14">14 · Relation tuples → arrows / higher-arity labels / attributes</option><option value="phase-15">15 · GraphViewer → Java graph layout → coordinates / edge paths</option><option value="phase-16">16 · Return graph → assemble window → request Swing painting</option><option value="phase-17">17 · Swing paint callback → Graph.draw → Artist → screen pixels</option><option value="phase-18">18 · Temporal navigation → re-read adjacent states → redraw</option><option value="phase-19">19 · New / New Trace / Fork → worker enumeration → forced XML reload</option><option value="phase-20">20 · Projection / theme changes → cache invalidation; zoom / drag → repaint</option><option value="phase-21">21 · Txt / Table / Tree mode → alternate content without GraphMaker</option><option value="phase-22">22 · Optional evaluator → saved sources + XML → expression value</option><option value="phase-23">23 · Metamodel / missing file / hidden atoms / no new result</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite">1 / 23</span></div><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><button id="all-stages" aria-pressed="false">All stages ↓</button><input id="query" type="search" placeholder="Find a method / file / parameter" aria-label="Find a method, filename, or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button><button id="print">Print</button></div>
+<div class="controls"><div class="stage-navigation" role="group" aria-label="Stage navigation"><button id="previous-stage" aria-label="Previous stage" aria-controls="stages" disabled>←</button><label for="stage">Stage</label><select id="stage"><option value="phase-01">01 · Startup → hidden visualizer → registered actions</option><option value="phase-02">02 · SAT result → reporter → UTF-8 XML writer</option><option value="phase-03">03 · XML contents → signatures → fields → tuples</option><option value="phase-04">04 · Worker message / completion → GUI callback → display request</option><option value="phase-05">05 · Manual display / XML dispatch / debug-thread branch</option><option value="phase-06">06 · loadXML → parse pane(s) → preserve/rebuild VizState</option><option value="phase-07">07 · XMLNode → A4SolutionReader → declarations and tuples</option><option value="phase-08">08 · XML reconstruction solve overload → no SAT search</option><option value="phase-09">09 · Selected state → types / atoms / sets / relations → AlloyInstance</option><option value="phase-10">10 · VizState defaults / data replacement → updateDisplay → mode choice</option><option value="phase-11">11 · VizGraphPanel → projection selectors → cached GraphViewer</option><option value="phase-12">12 · StaticProjector → remove selected columns → visible slice</option><option value="phase-13">13 · StaticGraphMaker → relation pass / atom pass → GraphNode</option><option value="phase-14">14 · Relation tuples → arrows / higher-arity labels / attributes</option><option value="phase-15">15 · GraphViewer → Java graph layout → coordinates / edge paths</option><option value="phase-16">16 · Return graph → assemble window → request Swing painting</option><option value="phase-17">17 · Swing paint callback → Graph.draw → Artist → screen pixels</option><option value="phase-18">18 · Temporal navigation → re-read adjacent states → redraw</option><option value="phase-19">19 · New / New Trace / Fork → worker enumeration → forced XML reload</option><option value="phase-20">20 · Projection / theme changes → cache invalidation; zoom / drag → repaint</option><option value="phase-21">21 · Txt / Table / Tree mode → alternate content without GraphMaker</option><option value="phase-22">22 · Optional evaluator → saved sources + XML → expression value</option><option value="phase-23">23 · Metamodel / missing file / hidden atoms / no new result</option></select><button id="next-stage" aria-label="Next stage" aria-controls="stages">→</button><span id="stage-position" class="counter" aria-live="polite">1 / 23</span></div><label class="description-toggle"><input type="checkbox" id="descriptions" aria-label="Show node descriptions" checked><span id="description-state">Descriptions on</span></label><button id="zout" aria-label="Zoom out">−</button><span id="scale" class="counter">100%</span><button id="zin" aria-label="Zoom in">+</button><button id="reset">100%</button><button id="fit">Fit width</button><button id="all-stages" aria-pressed="false">All stages ↓</button><input id="query" type="search" placeholder="Find a method / file / parameter" aria-label="Find a method, filename, or parameter"><button id="findnext">Next match</button><span id="matches" class="counter">0 matches</span><button id="clear">Clear</button><button id="print">Print</button></div>
 <div class="key"><span>IN · arguments</span><span>OUT · return</span><span>Δ · changed state</span><span>CALLER · call-site file</span><span>DEFINED · implementation file</span><span><i></i>call / next step</span><span><i class="ret"></i>return</span><span><i class="spawn"></i>thread / process dispatch</span><span><i class="event"></i>later event</span><span><i class="ipc"></i>process pipe</span><span><i class="err"></i>failure</span><span>↗ continuation · click node: connected edges</span><span>Mouse wheel · scroll diagram</span></div>
 <div class="key thread-key"><span><b style="background:#4d5569">T0 · parent JVM · startup thread</b></span><span><b style="background:#175caa">T1 · parent JVM · Swing event thread</b></span><span><b style="background:#96500d">T2 · parent JVM · worker-manager thread</b></span><span><b style="background:#17745d">T3 · child JVM · task thread [debug: T1]</b></span><span><b style="background:#63479b">C · same caller · T2 automatic / T1 manual</b></span></div></header>
 <main id="stages" aria-label="Instance visualization stages"><section id="phase-01"><div class="stagebar"><span class="num">01</span><h2>Startup → hidden visualizer → registered actions</h2><a href="#phase-02">Next stage →</a></div><div class="viewport" tabindex="0" aria-label="Scrollable stage 1"><div class="diagram"><svg role="img" aria-label="Startup → hidden visualizer → registered actions" width="498pt" height="3192pt"
@@ -10269,7 +10286,7 @@ body.continuous{height:auto;min-height:100dvh;display:block;overflow:auto}html:h
 </g>
 </svg>
 </div></div></section></main>
-<div class="footer-key">Checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · November 13, 2026 · Part 2 · Offline SVG · ← → stages · C inherits caller; no extra thread · XML read solve overload performs no SAT search</div>
+<div class="footer-key">Checkout ed89fdb16c58aea17a55e312c44f99e31aa63ee1 · November 13, 2026 · Part 2 · Offline SVG · ← → stages · ↑ ↓ descriptions · C inherits caller; no extra thread · XML read solve overload performs no SAT search</div>
 <script>
 const sections=[...document.querySelectorAll('section')];
 const nodes=[...document.querySelectorAll('g.node')];
@@ -10278,149 +10295,606 @@ const query=document.querySelector('#query'), counter=document.querySelector('#m
 const stages=document.querySelector('#stages'), stageSelect=document.querySelector('#stage');
 const previousStage=document.querySelector('#previous-stage'), nextStage=document.querySelector('#next-stage');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-const stageNotes=[
+// Explicit presentation-step-to-node mappings. Sentences about the same node stay together.
+const descriptionSteps=[
   [
-    'We will follow the answer as Alloy saves it, reads it, builds a graph, and draws that graph on the screen.',
-    'We start in <code>SimpleGUI.java</code>. Its <code>main(args)</code> method asks Swing, Java’s window library, to build the interface. During setup, Alloy creates <code>VizGUI</code>, the object that controls the picture window. An empty filename means there is nothing to show yet. The final argument, <code>2</code>, allows two views for an answer that changes over time.'
+    {
+      "nodeId": "p01-main",
+      "html": "We will follow an Alloy answer all the way to the picture on the screen. We begin in <code>SimpleGUI.java</code>, where <code>main(args)</code> asks Swing, Java’s window library, to build the interface."
+    },
+    {
+      "nodeId": "p01-viz6",
+      "html": "During setup, Alloy creates <code>VizGUI</code> to control the picture window. The empty filename means no answer is loaded yet. The argument <code>2</code> allows two views over time. With this ready, let’s follow a returned answer."
+    }
   ],
   [
-    'Now Alloy has found an answer, stored in an <code>A4Solution</code> object. In <code>A4Solution.java</code>, it calls <code>rep.resultSAT(cmd, time, this)</code>. These inputs are the command, the time taken, and the answer itself.',
-    'The call reaches <code>SimpleReporter.java</code>. Its <code>writeXML</code> helper passes the answer and a filename to <code>sol.writeXML</code>, along with function information and model text. This then calls <code>A4SolutionWriter.writeInstance</code>. The result is an XML file containing the answer.'
+    {
+      "nodeId": "p02-sat",
+      "html": "Once a command finds an answer, Alloy stores it in an <code>A4Solution</code>. The solving method in <code>A4Solution.java</code> calls <code>rep.resultSAT(cmd, time, this)</code>. It passes the command, the time taken, and the answer itself."
+    },
+    {
+      "nodeId": "p02-report",
+      "html": "That call reaches <code>SimpleReporter.resultSAT</code> in <code>SimpleReporter.java</code>. The reporter chooses a filename so the answer can be saved."
+    },
+    {
+      "nodeId": "p02-helper",
+      "html": "To save it, the reporter uses its <code>writeXML</code> helper. This passes the answer and filename to <code>sol.writeXML</code>, together with function information and the model text."
+    },
+    {
+      "nodeId": "p02-all",
+      "html": "The writing calls then reach <code>A4SolutionWriter.writeInstance</code>. Its job is to put the answer into an XML file. Let’s look inside that writing step to see what the file contains."
+    }
   ],
   [
-    'In <code>A4SolutionWriter.java</code>, <code>writeSig</code> saves the atoms, which are the individual things in the answer. <code>writeField</code> calls <code>writeExpr</code> to save their links as tuples, or ordered groups.',
-    'For example, a friendship tuple contains two people. The state input says which moment to save. The XML keeps both the values and their types.'
+    {
+      "nodeId": "p03-sig",
+      "html": "Inside <code>A4SolutionWriter.java</code>, <code>writeSig</code> saves the atoms for each signature. Atoms are the individual things in the answer, such as the people in a Person signature."
+    },
+    {
+      "nodeId": "p03-expr",
+      "html": "After saving those atoms, <code>writeField</code> calls <code>writeExpr</code> to save their links as tuples, or ordered groups. A friendship tuple, for example, contains two people. The state input says which moment to save. Once these values and their types are written, the worker can tell the Analyzer where to find the file."
+    }
   ],
   [
-    'The worker, which is the separate program doing the analysis, sends back the XML filename. In <code>WorkerEngine.java</code>, the manager reads this message and calls <code>SimpleCallback1.callback</code> in <code>SimpleReporter.java</code>.',
-    'This calls <code>gui.doSetLatest(filename)</code> in <code>SimpleGUI.java</code>. It remembers the file in two places: one for the Show button, and one for opening the answer when the work finishes.',
-    'Next, the worker sends a completion message. The manager calls <code>done()</code>, which calls <code>doStop()</code>. Zero means the work finished normally. If automatic viewing is on, this calls <code>doVisualize(filename)</code>. This path runs on manager thread T2. A manual click uses Swing thread T1.'
+    {
+      "nodeId": "p04-send",
+      "html": "With the XML file saved, the worker sends its filename back to the Analyzer. The worker is the separate program that carries out the analysis."
+    },
+    {
+      "nodeId": "p04-receive",
+      "html": "The manager in <code>WorkerEngine.java</code> reads that message and calls <code>SimpleCallback1.callback</code> in <code>SimpleReporter.java</code>. This passes control to the part of the Analyzer that handles the result."
+    },
+    {
+      "nodeId": "p04-latest",
+      "html": "The result handler calls <code>gui.doSetLatest(filename)</code> in <code>SimpleGUI.java</code>. This remembers the file in two places. One is for the Show button, and the other is for opening the answer when the work finishes."
+    },
+    {
+      "nodeId": "p04-complete",
+      "html": "After the task has finished, the worker sends a completion message. The manager can now finish the run and decide whether to open the saved answer."
+    },
+    {
+      "nodeId": "p04-stop",
+      "html": "To finish the run, the manager calls <code>done()</code>, which calls <code>gui.doStop(0)</code>. The zero means the work finished normally. This also restores the Analyzer’s controls."
+    },
+    {
+      "nodeId": "p04-visualize",
+      "html": "If automatic viewing is on, <code>doStop</code> calls <code>doVisualize(filename)</code>. In this code, that call continues on manager thread T2."
+    },
+    {
+      "nodeId": "p04-manual",
+      "html": "The user can also open the answer with a click, which runs on Swing thread T1. We will follow that entry point next and see how both paths reach the same loader."
+    }
   ],
   [
-    'If the user clicks Show, <code>doShowLatest()</code> passes the saved filename to <code>doVisualize</code>. Clicking an instance link reaches the same method.',
-    'In <code>SimpleGUI.java</code>, <code>doVisualize</code> calls <code>viz.loadXML(path, false, 0)</code>. The inputs mean: open this file, reuse it if already loaded, and start at state zero. Both viewing paths now reach the same method.'
+    {
+      "nodeId": "p05-show",
+      "html": "For the manual path, clicking Show calls <code>doShowLatest()</code>. This takes the remembered filename and passes it to <code>doVisualize</code>."
+    },
+    {
+      "nodeId": "p05-link",
+      "html": "The instance link provides another way into <code>doVisualize</code>. Its saved destination tells the method which XML file to open."
+    },
+    {
+      "nodeId": "p05-load",
+      "html": "Whichever path reaches it, <code>doVisualize</code> in <code>SimpleGUI.java</code> calls <code>viz.loadXML(path, false, 0)</code>. These inputs mean open this file, allow reuse if it is already loaded, and start at state zero. We can now follow the loader itself."
+    }
   ],
   [
-    'In <code>VizGUI.java</code>, <code>loadXML</code> takes a filename, a flag saying whether to read it again, and a state number.',
-    'For each view, it calls <code>StaticInstanceReader.parseInstance(file, state + i)</code>. Here, <code>i</code> is the view number. This returns an <code>AlloyInstance</code>, an object holding the data to show.',
-    'Alloy puts that data into a new <code>VizState</code>, or updates an existing one. A normal answer uses one view. An answer over time can use two views side by side. Then <code>OurUtil.show(frame)</code> brings the window forward, and <code>updateDisplay()</code> prepares its contents.'
+    {
+      "nodeId": "p06-load",
+      "html": "Now <code>loadXML</code> in <code>VizGUI.java</code> receives the filename, the flag saying whether to read it again, and the state number. It uses these inputs to prepare the views."
+    },
+    {
+      "nodeId": "p06-parse",
+      "html": "For each view, the loader calls <code>StaticInstanceReader.parseInstance(file, state + i)</code>. Here, <code>i</code> is the view number. When this call finishes, it returns an <code>AlloyInstance</code> containing the data for that view."
+    },
+    {
+      "nodeId": "p06-newstate",
+      "html": "The loader then puts this data into a new <code>VizState</code>, or updates one that already exists. A VizState keeps the view’s data together with its appearance settings."
+    },
+    {
+      "nodeId": "p06-retain",
+      "html": "For an answer with one state, the loader keeps just the first view. This gives the user one picture of that answer."
+    },
+    {
+      "nodeId": "p06-trace",
+      "html": "For an answer that changes over time, the loader can keep two views side by side. These show the selected state and the next one."
+    },
+    {
+      "nodeId": "p06-show",
+      "html": "Once the views are loaded, <code>OurUtil.show(frame)</code> brings the window forward and <code>updateDisplay()</code> prepares its contents. Before following the display calls, let’s go inside <code>parseInstance</code> and see how it reads the answer."
+    }
   ],
   [
-    'In <code>StaticInstanceReader.java</code>, <code>parseInstance(file, state)</code> first turns the XML text into a tree of tags, called an <code>XMLNode</code>.',
-    'It then calls <code>A4SolutionReader.read(emptySignatureList, root)</code>. The empty list tells the reader to get the types and fields from the file. The result is a new solution object holding the saved answer.',
-    'Inside <code>A4SolutionReader.java</code>, <code>parseSig(id, 0)</code> reads a type, and <code>parseField(id)</code> reads a field. <code>parseTuple</code> reads the atom names in order and checks the number of columns. The reader now has the answer’s values in Java objects.'
+    {
+      "nodeId": "p07-xml",
+      "html": "To read the answer, <code>parseInstance(file, state)</code> in <code>StaticInstanceReader.java</code> first turns the XML text into an <code>XMLNode</code>, a tree of tags."
+    },
+    {
+      "nodeId": "p07-read",
+      "html": "Using that tree, the reader calls <code>A4SolutionReader.read(emptySignatureList, root)</code>. The empty list tells it to get the types and fields from the file. This call builds a new solution object from the saved answer."
+    },
+    {
+      "nodeId": "p07-sig",
+      "html": "Inside <code>A4SolutionReader.java</code>, <code>parseSig(id, 0)</code> reads each type, and <code>parseField(id)</code> reads each field. The IDs connect these entries to the right parts of the XML."
+    },
+    {
+      "nodeId": "p07-tuple",
+      "html": "For each saved tuple, <code>parseTuple</code> reads the atom names in order and checks the number of columns. These values are now Java objects. The next step puts them together into a solution that can answer value queries."
+    }
   ],
   [
-    'The reader uses <code>sol.addRel(name, tuples, tuples, isVariable)</code> to set a relation’s saved value. Passing the same tuples twice means these are exactly the values allowed.',
-    'It then calls <code>sol.solve(null, previousSolution, loopLength)</code> in <code>A4Solution.java</code>. Here, null means no reporter, the second input holds earlier states, and the third gives the loop length.',
-    'This version of <code>solve</code> puts the saved values together. It does not search for another answer. It also creates an <code>Evaluator</code>, a helper that can read values from this loaded answer.'
+    {
+      "nodeId": "p08-rel",
+      "html": "To put the saved values into that solution, the reader calls <code>sol.addRel(name, tuples, tuples, isVariable)</code>. Passing the same tuples twice fixes the relation to exactly those values."
+    },
+    {
+      "nodeId": "p08-solve",
+      "html": "With the relation values fixed, it calls <code>sol.solve(null, previousSolution, loopLength)</code> in <code>A4Solution.java</code>. Null means no reporter, the second input holds earlier states, and the third gives the loop length. This version of solve puts the saved values together without searching for another answer."
+    },
+    {
+      "nodeId": "p08-evaluator",
+      "html": "As part of that work, it creates an <code>Evaluator</code>. This helper can read values from the loaded answer. We can now use those values to build the data needed by the picture."
+    }
   ],
   [
-    'Back in <code>StaticInstanceReader.java</code>, Alloy prepares the data used by the picture. <code>sig(signature)</code> creates an <code>AlloyType</code>. For example, Person becomes a display type.',
-    '<code>atoms(sol, signature, state)</code> reads the members of that type at the chosen state. Each member becomes an <code>AlloyAtom</code> with a type, number, and name. If a type has child types, the method avoids creating the same atom twice.',
-    'Next, <code>setOfRel</code> takes the answer, name, expression, display flags, and state. One column becomes an <code>AlloySet</code>. Two or more become an <code>AlloyRelation</code> holding tuples.',
-    'Finally, <code>new AlloyInstance</code> brings these types, atoms, and links together. This object returns to <code>loadXML</code>. It holds what to show; later calls decide where to draw it.'
+    {
+      "nodeId": "p09-sig",
+      "html": "The loaded solution returns to <code>StaticInstanceReader.java</code>. Here, <code>sig(signature)</code> creates an <code>AlloyType</code>. For example, the Person signature becomes a type the picture can use."
+    },
+    {
+      "nodeId": "p09-atoms",
+      "html": "For that type, <code>atoms(sol, signature, state)</code> reads its members at the chosen state. This tells the reader which individual things need to appear."
+    },
+    {
+      "nodeId": "p09-atom",
+      "html": "Each member becomes an <code>AlloyAtom</code> with a type, a number, and its original name. These objects represent the individuals that may later become nodes."
+    },
+    {
+      "nodeId": "p09-atoms",
+      "html": "While collecting these atoms, the <code>atoms</code> method also handles child types. It gives each atom its most specific type, so the same atom is not added twice."
+    },
+    {
+      "nodeId": "p09-convert",
+      "html": "With the atoms ready, <code>setOrRel</code> reads set memberships and links. Its inputs are the answer, name, expression, display flags, and state."
+    },
+    {
+      "nodeId": "p09-set",
+      "html": "If the value has one column, the reader creates an <code>AlloySet</code>. This records which atoms belong to that set."
+    },
+    {
+      "nodeId": "p09-rel",
+      "html": "If the value has two or more columns, the reader creates an <code>AlloyRelation</code> containing tuples. These tuples record the links between atoms."
+    },
+    {
+      "nodeId": "p09-instance",
+      "html": "Finally, <code>new AlloyInstance</code> brings the types, atoms, sets, and links together. This object returns to <code>loadXML</code>. It holds what to show. Next, we will see how Alloy combines it with the settings that control its appearance."
+    }
   ],
   [
-    'In <code>VizState.java</code>, <code>new VizState(instance)</code> stores the answer and sets up its theme. The theme controls things like colors, shapes, labels, and which items are visible.',
-    'When another instance is loaded, <code>loadInstance</code> replaces the data and removes old saved graphs. It keeps the user’s theme settings.',
-    'Then <code>VizGUI.updateDisplay()</code> checks what the user wants to see: a graph, text, a table, or a tree. We are following the graph choice, called Viz. This leads to <code>VizGraphPanel</code>.'
+    {
+      "nodeId": "p10-new",
+      "html": "The loader passes that instance to <code>new VizState(instance)</code> in <code>VizState.java</code>. This keeps the answer’s data and its appearance settings in one place."
+    },
+    {
+      "nodeId": "p10-theme",
+      "html": "For a new view, <code>resetTheme()</code> supplies the starting appearance settings. The theme controls colors, shapes, labels, and which items are visible."
+    },
+    {
+      "nodeId": "p10-load",
+      "html": "For an existing view, <code>loadInstance</code> replaces the data and removes old saved graphs. It keeps the user’s theme, so those choices can apply to the newly loaded answer."
+    },
+    {
+      "nodeId": "p10-update",
+      "html": "With the data and settings ready, <code>VizGUI.updateDisplay()</code> checks the selected mode. The choices are a graph, text, a table, or a tree."
+    },
+    {
+      "nodeId": "p10-mode",
+      "html": "We will follow the graph choice, called Viz. This selects the path that builds a picture from nodes and arrows."
+    },
+    {
+      "nodeId": "p10-graph",
+      "html": "That choice leads to <code>VizGraphPanel</code>. We will now follow how this panel asks for the graph it needs."
+    }
   ],
   [
-    '<code>VizGUI.java</code> creates <code>VizGraphPanel(frame, states, false)</code>. The inputs are the window, the data for each view, and false to show a picture rather than graph-description text.',
-    'In <code>VizGraphPanel.java</code>, the panel creates areas the user can scroll, then calls <code>remakeAll(frame)</code>. This collects any selected projection atoms and calls <code>getGraph(frame, projection)</code> for each view.',
-    'In <code>VizState.java</code>, <code>getGraph</code> first checks for a graph it has already made. If one is saved, it returns it.',
-    'Otherwise, it calls <code>StaticGraphMaker.produceGraph</code> with the window, instance data, theme, and projection choice. This creates a <code>Graph</code> and returns a <code>GraphViewer</code>, the panel that will draw it. Alloy saves this viewer so it can use it again.'
+    {
+      "nodeId": "p11-panel",
+      "html": "To hold the graph, <code>VizGUI.java</code> creates <code>VizGraphPanel(frame, states, false)</code>. The inputs are the window, the data for each view, and false to request a picture rather than graph-description text."
+    },
+    {
+      "nodeId": "p11-remake",
+      "html": "Inside <code>VizGraphPanel.java</code>, the panel creates areas the user can scroll, then calls <code>remakeAll(frame)</code> to fill them."
+    },
+    {
+      "nodeId": "p11-get",
+      "html": "To fill each view, it collects any projection choices and calls <code>getGraph(frame, projection)</code>. In <code>VizState.java</code>, getGraph first checks for a graph it has already made. If a saved graph matches, it returns that graph."
+    },
+    {
+      "nodeId": "p11-produce",
+      "html": "If there is no saved graph, getGraph calls <code>StaticGraphMaker.produceGraph</code>. It passes the window, instance data, theme, and projection choice. This method creates a Graph and, once that graph is ready, returns a GraphViewer to display it."
+    },
+    {
+      "nodeId": "p11-get",
+      "html": "When the viewer returns, <code>getGraph</code> saves it for reuse. To understand how that viewer is made, we will now follow the work inside produceGraph, starting with projection."
+    }
   ],
   [
-    'The graph maker calls <code>StaticProjector.project(instance, projection)</code>. Projection means choosing one part of the data to look at.',
-    'For example, a tuple might contain a time, a person, and a book. If we choose one time, the method keeps tuples for that time and removes the time column. The remaining person and book can form an arrow.',
-    '<code>StaticProjector.java</code> returns an <code>AlloyInstance</code> holding this chosen part. The original answer is still available.'
+    {
+      "nodeId": "p12-project",
+      "html": "Inside the graph maker, <code>StaticProjector.project(instance, projection)</code> chooses which part of the data to show. The instance holds the answer, and the projection holds the user’s choices."
+    },
+    {
+      "nodeId": "p12-matches",
+      "html": "For example, suppose a tuple contains a time, a person, and a book. If the user chooses one time, the method keeps the tuples for that time and removes the time column."
+    },
+    {
+      "nodeId": "p12-tuple",
+      "html": "The remaining tuple contains the person and book. These two values can later become the start and end of an arrow."
+    },
+    {
+      "nodeId": "p12-inst",
+      "html": "The projector returns an <code>AlloyInstance</code> holding this chosen part, while keeping the original answer available. The graph maker can now use the chosen data to create nodes and arrows."
+    }
   ],
   [
-    'Now <code>StaticGraphMaker.java</code> turns atoms into nodes, the boxes or shapes in the picture. It uses <code>createNode</code> when an arrow needs an endpoint, and later for other visible atoms.',
-    'The inputs are hide settings, the atom, and a color. The method reuses a node if one already exists. If the atom is hidden, it returns null, meaning no node.',
-    'For a new node, <code>atomname(atom, false)</code> calls <code>getVizName</code> in <code>AlloyAtom.java</code> to choose its label. The theme can control whether a number appears.',
-    'Then <code>new GraphNode(graph, atom, label)</code> creates the node. Further calls set its shape, line style, and color. Person$0, for example, may be labeled Person0.'
+    {
+      "nodeId": "p13-build",
+      "html": "Back in <code>StaticGraphMaker.java</code>, the chosen atoms become nodes, which are the boxes or shapes in the picture. We will follow how one of these nodes is made."
+    },
+    {
+      "nodeId": "p13-node",
+      "html": "The graph maker calls <code>createNode</code> with the hide settings, an atom, and a color. It can reuse a node made earlier. If the atom is hidden, it returns null. Otherwise, it prepares a node for that atom."
+    },
+    {
+      "nodeId": "p13-vizname",
+      "html": "To choose the node’s label, <code>atomname(atom, false)</code> calls <code>getVizName</code> in <code>AlloyAtom.java</code>. The theme controls the name and whether a number is shown."
+    },
+    {
+      "nodeId": "p13-new",
+      "html": "Using that label, <code>new GraphNode(graph, atom, label)</code> creates the node. The graph receives the node, and the atom keeps it connected to the answer it represents."
+    },
+    {
+      "nodeId": "p13-style",
+      "html": "The graph maker then sets the node’s shape, line style, and color. These settings decide how that node will look when it is drawn."
+    },
+    {
+      "nodeId": "p13-vizname",
+      "html": "The label chosen earlier may show Person$0 as Person0, for example. With the nodes prepared, we can now follow how the links between them become arrows."
+    }
   ],
   [
-    'Next, the links become arrows. In <code>StaticGraphMaker.java</code>, <code>edgesAsArcs</code> reads each tuple in a relation and calls <code>createEdge</code>.',
-    'It passes hide settings, the relation, the tuple, a flag for arrows in both directions, and a color. <code>createEdge</code> gets the start and end nodes, then creates <code>GraphEdge(start, end, tuple, label, relation)</code>.',
-    'A friendship tuple from Person0 to Person1 becomes an arrow between those people. If the reverse tuple also exists, Alloy can show one arrow with a head at each end.',
-    'Extra tuple columns go in the arrow label. The theme can also use <code>edgesAsAttribute</code> to show values inside a node.'
+    {
+      "nodeId": "p14-arcs",
+      "html": "To create those arrows, the graph maker starts with <code>edgesAsArcs</code>. This works through the tuples in each relation."
+    },
+    {
+      "nodeId": "p14-edge",
+      "html": "For each tuple, it calls <code>createEdge</code> in <code>StaticGraphMaker.java</code>. The inputs include the hide settings, relation, tuple, a flag for arrows in both directions, and a color."
+    },
+    {
+      "nodeId": "p14-new",
+      "html": "The method gets the start and end nodes, then creates <code>GraphEdge(start, end, tuple, label, relation)</code>. For example, a friendship tuple from Person0 to Person1 becomes an arrow between those people."
+    },
+    {
+      "nodeId": "p14-merge",
+      "html": "If the reverse tuple is also present, the arrow-merging step can combine the pair into one arrow with a head at each end. This lets one drawn edge show both directions."
+    },
+    {
+      "nodeId": "p14-label",
+      "html": "For a tuple with extra columns, the middle values go in the arrow label. The first and last values remain its endpoints."
+    },
+    {
+      "nodeId": "p14-attr",
+      "html": "The theme can also use <code>edgesAsAttribute</code> to put relation values as text inside a node. With the nodes, arrows, and labels prepared, the next task is to choose their positions."
+    }
   ],
   [
-    'Once the graph has its nodes and arrows, <code>produceGraph</code> creates <code>GraphViewer(parent, graph)</code>. The parent is the window. The graph holds the things to draw.',
-    'In <code>GraphViewer.java</code>, this calls <code>graph.layout()</code>. In <code>Graph.java</code>, layout means choosing positions.',
-    'First, <code>calcBounds()</code> works out how much room each node needs for its shape and text. Other helpers place nodes in rows, change their order to reduce crossings, and choose their left-to-right and top-to-bottom positions.',
-    'Then <code>relayout_edges(true)</code> finds paths for the arrows. True asks it to straighten them where possible. It also positions arrowheads and labels. Finally, <code>recalcBound(true)</code> works out the total graph size. The viewer is now ready to draw.'
+    {
+      "nodeId": "p15-viewer",
+      "html": "To position the graph, produceGraph creates <code>GraphViewer(parent, graph)</code>. The parent is the window, and the graph holds the nodes, arrows, and labels we just built."
+    },
+    {
+      "nodeId": "p15-layout",
+      "html": "In <code>GraphViewer.java</code>, the constructor calls <code>graph.layout()</code>. This method in <code>Graph.java</code> chooses where the parts of the graph will go."
+    },
+    {
+      "nodeId": "p15-bounds",
+      "html": "The layout starts with <code>calcBounds()</code>, which measures how much room each node needs for its shape and text. These sizes guide the placement work that follows."
+    },
+    {
+      "nodeId": "p15-layout",
+      "html": "Using those sizes, the layout helpers place nodes in rows, adjust their order to reduce crossings, and choose their horizontal and vertical positions."
+    },
+    {
+      "nodeId": "p15-route",
+      "html": "Once the nodes are placed, <code>relayout_edges(true)</code> finds paths for the arrows. True asks it to straighten them where possible. This step also positions the arrowheads and labels."
+    },
+    {
+      "nodeId": "p15-total",
+      "html": "Finally, <code>recalcBound(true)</code> works out the total graph size. The viewer now holds a positioned graph and can return to the code that puts it in the window."
+    }
   ],
   [
-    'The <code>GraphViewer</code> returns through <code>produceGraph</code> and <code>getGraph</code> to <code>remakeAll</code>. In <code>VizGraphPanel.java</code>, it is placed inside a view the user can scroll.',
-    'Then <code>VizGUI.updateDisplay</code> puts the toolbar and picture into the window. <code>frame.setContentPane(splitpane)</code> installs these parts, and <code>frame.validate()</code> arranges them.',
-    'A call to <code>repaint()</code> asks Swing to draw the picture. Swing handles that request through its event thread.'
+    {
+      "nodeId": "p16-remake",
+      "html": "The finished <code>GraphViewer</code> returns through produceGraph and getGraph to <code>remakeAll</code>. We are now back at the panel that requested the graph."
+    },
+    {
+      "nodeId": "p16-attach",
+      "html": "In <code>VizGraphPanel.java</code>, the returned viewer is placed inside an area the user can scroll. This makes room for graphs larger than the visible window."
+    },
+    {
+      "nodeId": "p16-area",
+      "html": "Back in <code>VizGUI.updateDisplay</code>, Alloy brings the toolbar and graph view together. These become the main contents of the picture window."
+    },
+    {
+      "nodeId": "p16-frame",
+      "html": "The call <code>frame.setContentPane(splitpane)</code> installs those parts in the window. Then <code>frame.validate()</code> arranges the surrounding panels."
+    },
+    {
+      "nodeId": "p16-repaint",
+      "html": "With the contents installed, <code>repaint()</code> asks Swing to draw them. Swing handles this request on its event thread. We will follow that drawing call next."
+    }
   ],
   [
-    'Now Swing calls <code>GraphViewer.paintComponent(graphics)</code> in <code>GraphViewer.java</code>. The input is a graphics object: the tool Java gives the method for drawing on the screen.',
-    'The method draws the background, makes lines look smoother, and applies the zoom level. It then calls <code>graph.draw(artist, scale, selection, true)</code>.',
-    'The first input is the drawing helper. Scale is the zoom level. Selection tells it which item to highlight. True tells it to show the legend.',
-    'In <code>Graph.java</code>, <code>draw</code> calls <code>GraphEdge.draw</code> for arrows and their labels. It calls <code>GraphNode.draw</code> for shapes and atom names.',
-    'These methods use <code>Artist.java</code>, which calls Java’s drawing methods: <code>fill</code> colors a shape, <code>draw</code> draws an outline, and <code>drawString</code> writes text. The user can now see the answer. Swing draws it again whenever the window needs updating.'
+    {
+      "nodeId": "p17-paint",
+      "html": "Swing now calls <code>GraphViewer.paintComponent(graphics)</code> in <code>GraphViewer.java</code>. The graphics input is the tool Java provides for drawing on the screen. The method draws the background, smooths the lines, and applies the zoom level."
+    },
+    {
+      "nodeId": "p17-draw",
+      "html": "It then calls <code>graph.draw(artist, scale, selection, true)</code>. Artist is the drawing helper, scale is the zoom level, and selection says which item to highlight. True asks it to show the legend."
+    },
+    {
+      "nodeId": "p17-edge",
+      "html": "Inside <code>Graph.java</code>, draw first calls <code>GraphEdge.draw</code> to paint the arrows, arrowheads, and their labels."
+    },
+    {
+      "nodeId": "p17-node",
+      "html": "It then calls <code>GraphNode.draw</code> to paint the node shapes and atom names. Together, these calls draw the objects we built earlier."
+    },
+    {
+      "nodeId": "p17-pixels",
+      "html": "These drawing calls use <code>Artist.java</code> to reach Java’s drawing methods. Fill colors a shape, draw paints its outline, and drawString writes text. The user can now see the answer."
+    },
+    {
+      "nodeId": "p17-paint",
+      "html": "Swing calls paintComponent again whenever the window needs updating. That completes the first display of an answer. We will now look at the user actions that update or change this view."
+    }
   ],
   [
-    'The last slides show what happens after the picture appears. For an answer that changes over time, the arrow buttons call <code>doNavLeft</code> or <code>doNavRight</code> in <code>VizGUI.java</code>.',
-    'These change the current state number and call <code>updateDisplay()</code>. This reads <code>parseInstance(file, current + i)</code> for each view. Alloy loads those values, removes the old saved graphs, and draws the selected moments from the same answer.'
+    {
+      "nodeId": "p18-left",
+      "html": "The first action we will follow is moving through an answer that changes over time. The same saved answer can provide several moments for the user to inspect."
+    },
+    {
+      "nodeId": "p18-right",
+      "html": "The arrow buttons call <code>doNavLeft</code> or <code>doNavRight</code> in <code>VizGUI.java</code> to select an earlier or later state."
+    },
+    {
+      "nodeId": "p18-update",
+      "html": "These methods change the current state number and call <code>updateDisplay()</code>. The display can then load the values for the selected moment."
+    },
+    {
+      "nodeId": "p18-parse",
+      "html": "For each view, updateDisplay calls <code>parseInstance(file, current + i)</code>. It uses the same file, with a different state number."
+    },
+    {
+      "nodeId": "p18-load",
+      "html": "Alloy loads those values, removes the old saved graphs, and draws the selected states. This moves within one answer. Next, we will see what happens when the user asks for a new answer."
+    }
   ],
   [
-    'New asks Alloy to find another answer. <code>VizGUI</code> calls <code>enumerator.compute</code> with the filename and a number saying which kind of new answer to find.',
-    'The worker calls <code>sol.fork(index)</code> and saves any new answer to the same XML file. Then <code>loadXML(filename, true, state)</code> forces the file to be read again. The same graph-building and drawing calls show the new answer.'
+    {
+      "nodeId": "p19-next",
+      "html": "To request another answer, the user chooses New or one of the related actions. The selected action tells Alloy what kind of new answer to find."
+    },
+    {
+      "nodeId": "p19-request",
+      "html": "The action calls <code>enumerator.compute</code> with the filename and an operation number. This sends the request back to the analysis worker."
+    },
+    {
+      "nodeId": "p19-fork",
+      "html": "In the worker, <code>sol.fork(index)</code> looks for the requested answer. If one is accepted, the worker saves it to the same XML file."
+    },
+    {
+      "nodeId": "p19-global",
+      "html": "When that work finishes, the display calls loadXML with the force flag set to true. This makes it read the file again, even though the filename has stayed the same."
+    },
+    {
+      "nodeId": "p19-reload",
+      "html": "The familiar reading, graph-building, layout, and drawing calls then show the new answer. The user can also keep an answer and change only its appearance, which is the next path we will follow."
+    }
   ],
   [
-    'The user can also change how the answer looks. In <code>VizState.java</code>, changes to the theme or projection remove old saved graphs so Alloy can build the changed view.',
-    'Zoom changes the scale in <code>GraphViewer.java</code>. Dragging a node calls <code>node.tweak(x, y)</code> with its new position. Alloy then draws the changed picture.'
+    {
+      "nodeId": "p20-projection",
+      "html": "Now let’s change how this answer looks."
+    },
+    {
+      "nodeId": "p20-change",
+      "html": "In <code>VizState.java</code>, those changes remove the old saved graphs. The next display update can then build a graph using the new settings."
+    },
+    {
+      "nodeId": "p20-zoom",
+      "html": "Next, zoom changes the scale in <code>GraphViewer.java</code>."
+    },
+    {
+      "nodeId": "p20-tweak",
+      "html": "The user can also drag a node. This calls <code>node.tweak(x, y)</code> with its new position and adjusts the nearby arrows."
+    },
+    {
+      "nodeId": "p20-repaint",
+      "html": "Alloy then requests another drawing so the changed picture appears. Alongside these graph controls, the user can choose other ways to view the same answer."
+    }
   ],
   [
-    'The user can choose other views in <code>VizGUI.updateDisplay</code>. Txt calls <code>toString(state)</code>, and Table calls <code>format(state)</code>. Both return text to show.',
-    'Tree creates <code>VizTree</code> with the answer, title, font size, and state. It shows entries the user can open.'
+    {
+      "nodeId": "p21-select",
+      "html": "Those other views are selected in <code>VizGUI.updateDisplay</code>. The chosen mode decides which kind of content the window will show."
+    },
+    {
+      "nodeId": "p21-text",
+      "html": "For Txt, the display calls <code>toString(state)</code>. For Table, it calls <code>format(state)</code>. Each method reads values from the loaded answer at that state."
+    },
+    {
+      "nodeId": "p21-component",
+      "html": "Both methods return text, which the display places in areas the user can scroll. This lets the user read the answer’s values directly."
+    },
+    {
+      "nodeId": "p21-tree",
+      "html": "For Tree, the display creates <code>VizTree</code> with the answer, title, font size, and state. It shows entries the user can open. The next option goes further and lets the user ask for the value of an expression."
+    }
   ],
   [
-    'The evaluator lets the user type an expression and see its value. In <code>SimpleGUI.java</code>, the helper receives the expression and state number.',
-    'It loads the saved model and answer, then calls <code>ans.eval(expression, state)</code>. The returned value appears as text.'
+    {
+      "nodeId": "p22-open",
+      "html": "That option is the evaluator. The user can type an Alloy expression and ask what its value is in the loaded answer."
+    },
+    {
+      "nodeId": "p22-expr",
+      "html": "The evaluator helper in <code>SimpleGUI.java</code> receives the expression and state number. These identify what to check and at which moment."
+    },
+    {
+      "nodeId": "p22-eval",
+      "html": "The helper loads the saved model and answer, then calls <code>ans.eval(expression, state)</code> to read the expression’s value."
+    },
+    {
+      "nodeId": "p22-result",
+      "html": "The returned value appears as text in the evaluator panel. We have now covered the main picture and its viewing controls. The final stage shows a few special cases and brings the whole path together."
+    }
   ],
   [
-    'These final branches handle model-structure pictures, file errors, and hidden atoms.',
-    'The full path is: save the answer as XML; read it into an <code>AlloyInstance</code>; create nodes and arrows; use <code>Graph.layout</code> to place them; then use Swing, <code>Graph.draw</code>, and <code>Artist</code> to draw the picture. Thank you.'
+    {
+      "nodeId": "p23-reader",
+      "html": "The same viewing code also handles model-structure pictures, file errors, and atoms hidden by the theme. These branches connect back to the loading or drawing steps we have followed."
+    },
+    {
+      "nodeId": "p23-metaGraph",
+      "html": "We can now trace the whole journey. Alloy saves the answer as XML. The reader turns it into an <code>AlloyInstance</code>. The graph maker creates nodes and arrows, and <code>Graph.layout</code> places them. Finally, Swing, <code>Graph.draw</code>, and <code>Artist</code> draw the picture the user sees. Thank you."
+    }
   ]
 ];
+
 let activeStage=0;
 let zoom=1, fitting=false, matches=[], matchIndex=-1;
-function renderStageNote(section){
-  const notes=stageNotes[sections.indexOf(section)];
-  section.querySelector('.stage-note-text').innerHTML=notes.map(note=>'<p class="stage-note-block">'+note+'</p>').join('');
-}
-sections.forEach(section=>{
-  const panel=document.createElement('div');
-  panel.className='stage-notes';
-  panel.setAttribute('aria-label','Stage notes');
-  panel.innerHTML='<div class="stage-note-heading"><span>Stage notes</span></div><div class="stage-note-text"></div>';
-  section.append(panel);
-  renderStageNote(section);
+const descriptionsToggle=document.querySelector('#descriptions');
+document.body.classList.toggle('descriptions-enabled',descriptionsToggle.checked);
+const descriptionState=sections.map((section,stageIndex)=>{
+  const items=descriptionSteps[stageIndex].map(item=>{
+    const target=document.getElementById(item.nodeId);
+    if(!target?.matches('g.node')||!section.contains(target))throw new Error('Invalid description mapping: '+item.nodeId);
+    return {...item,target};
+  });
+  const dialog=document.createElement('aside');
+  dialog.className='description-dialog';dialog.hidden=true;
+  dialog.setAttribute('role','status');dialog.setAttribute('aria-live','polite');dialog.setAttribute('aria-atomic','true');
+  dialog.innerHTML='<div class="dialog-heading"><span>Node description</span><span class="dialog-count"></span></div><p></p>';
+  const extent=document.createElement('div');extent.className='description-extent';extent.hidden=true;extent.setAttribute('aria-hidden','true');
+  section.querySelector('.viewport').append(dialog,extent);
+  return {items,index:0,dialog,extent,target:null};
 });
+let placementFrame=0;
+function scheduleDescriptionPlacement(){
+  if(placementFrame)return;
+  placementFrame=requestAnimationFrame(()=>{placementFrame=0;placeDescription(activeStage);});
+}
+function hideDescriptions(){
+  document.querySelectorAll('.description-target').forEach(node=>node.classList.remove('description-target'));
+  descriptionState.forEach(state=>{state.dialog.hidden=true;state.extent.hidden=true;state.target=null;});
+}
+function placeDescription(stageIndex){
+  const state=descriptionState[stageIndex];if(!state?.target||state.dialog.hidden)return;
+  const viewport=sections[stageIndex].querySelector('.viewport');
+  const frame=viewport.getBoundingClientRect(),box=state.target.getBoundingClientRect();
+  const originX=frame.left+viewport.clientLeft-viewport.scrollLeft;
+  const originY=frame.top+viewport.clientTop-viewport.scrollTop;
+  const width=state.dialog.offsetWidth,height=state.dialog.offsetHeight,gap=18;
+  const x=box.left-originX,y=box.top-originY;
+  const centeredTop=Math.max(8,y+(box.height-height)/2);
+  let top=centeredTop,left=x+box.width+gap,side='right';
+  const obstacles=[...sections[stageIndex].querySelectorAll('g.node')].filter(node=>node!==state.target).map(node=>node.getBoundingClientRect());
+  function collides(candidate,candidateTop){
+    return obstacles.some(other=>candidate+originX<other.right+8&&candidate+originX+width>other.left-8&&candidateTop+originY<other.bottom+8&&candidateTop+originY+height>other.top-8);
+  }
+  // Search clear gaps beside the target, including above/below neighboring
+  // branches. Never move a callout to a distant gutter away from its node.
+  const sides=[{left,side:'right'},{left:x-width-gap,side:'left'}].filter(candidate=>candidate.left>=8);
+  const tops=[centeredTop,Math.max(8,y),Math.max(8,y+box.height-height),...obstacles.flatMap(other=>[Math.max(8,other.top-originY-height-12),other.bottom-originY+12])];
+  const visibleHeight=document.body.classList.contains('continuous')?Math.max(80,innerHeight-document.querySelector('header').offsetHeight):viewport.clientHeight;
+  let best=null;
+  for(const candidate of sides)for(const candidateTop of tops){
+    if(collides(candidate.left,candidateTop))continue;
+    const span=Math.max(y+box.height,candidateTop+height)-Math.min(y,candidateTop);
+    const score=Math.abs(candidateTop-centeredTop)+(span>visibleHeight-24?100000:0)+(candidate.side==='left'?4:0);
+    if(!best||score<best.score)best={...candidate,top:candidateTop,score};
+  }
+  if(best){left=best.left;top=best.top;side=best.side;}
+  left=Math.max(8,left);
+  state.dialog.dataset.side=side;
+  state.dialog.style.left=left+'px';state.dialog.style.top=top+'px';
+  state.dialog.style.setProperty('--arrow-y',Math.max(10,Math.min(height-28,y+box.height/2-top-9))+'px');
+  state.extent.hidden=false;state.extent.style.left=(left+width+20)+'px';state.extent.style.top=(top+height+20)+'px';
+  state.bounds={left:Math.min(x,left),top:Math.min(y,top),right:Math.max(x+box.width,left+width),bottom:Math.max(y+box.height,top+height),nodeLeft:x,nodeRight:x+box.width,dialogLeft:left,dialogRight:left+width,dialogTop:top,dialogBottom:top+height};
+}
+function revealDescriptionTarget(stageIndex){
+  const state=descriptionState[stageIndex],viewport=sections[stageIndex].querySelector('.viewport');
+  placeDescription(stageIndex);const b=state.bounds;if(!b)return;
+  const width=viewport.clientWidth;
+  // At high zoom/narrow widths, keep the full callout plus the near edge of its node visible.
+  const left=b.right-b.left+32<=width?Math.max(0,(b.left+b.right-width)/2):Math.max(0,b.dialogRight-width+16);
+  if(document.body.classList.contains('continuous')){
+    viewport.scrollTo({left,behavior:'instant'});
+    const topInset=document.querySelector('header').offsetHeight;
+    const visibleHeight=Math.max(80,innerHeight-topInset);
+    const originY=viewport.getBoundingClientRect().top+window.scrollY+viewport.clientTop;
+    const top=b.bottom-b.top+24<=visibleHeight?(b.top+b.bottom-visibleHeight)/2:Math.max(b.dialogTop-12,(b.dialogTop+b.dialogBottom-visibleHeight)/2);
+    const sectionStart=sections[stageIndex].getBoundingClientRect().top+window.scrollY-topInset;
+    window.scrollTo({top:Math.max(0,sectionStart,originY+top-topInset),behavior:'instant'});
+  }else{
+    const height=viewport.clientHeight;
+    const top=b.bottom-b.top+24<=height?(b.top+b.bottom-height)/2:Math.max(b.dialogTop-12,(b.dialogTop+b.dialogBottom-height)/2);
+    viewport.scrollTo({left,top:Math.max(0,top),behavior:'instant'});
+  }
+  scheduleDescriptionPlacement();
+}
+function showDescription(stageIndex,index,scrollToTarget=false){
+  const state=descriptionState[stageIndex];if(!state)return;
+  state.index=Math.max(0,Math.min(state.items.length-1,index));
+  hideDescriptions();
+  if(!descriptionsToggle.checked)return;
+  const item=state.items[state.index];if(!item)return;
+  state.target=item.target;state.dialog.hidden=false;state.target.classList.add('description-target');
+  state.dialog.querySelector('.dialog-count').textContent=(state.index+1)+' / '+state.items.length;
+  state.dialog.querySelector('p').innerHTML=item.html;
+  state.dialog.dataset.target=item.nodeId;
+  placeDescription(stageIndex);
+  if(scrollToTarget)revealDescriptionTarget(stageIndex);
+}
+function moveDescription(direction){
+  const state=descriptionState[activeStage];if(!state||!descriptionsToggle.checked)return;
+  showDescription(activeStage,state.index+direction,true);
+}
 function setActiveStage(index){
-  activeStage=index;
+  index=Math.max(0,Math.min(sections.length-1,index));
+  const changed=index!==activeStage;activeStage=index;
   stageSelect.value=sections[index].id;
-  previousStage.disabled=index===0;
-  nextStage.disabled=index===sections.length-1;
+  previousStage.disabled=index===0;nextStage.disabled=index===sections.length-1;
   document.querySelector('#stage-position').textContent=(index+1)+' / '+sections.length;
+  if(changed)showDescription(index,descriptionState[index].index,false);
 }
 function showStage(section,behavior='smooth'){
-  if(document.body.classList.contains('continuous')){setActiveStage(sections.indexOf(section));window.scrollTo({top:section.getBoundingClientRect().top+window.scrollY-document.querySelector('header').offsetHeight,behavior:reducedMotion.matches?'instant':behavior});return;}
   setActiveStage(sections.indexOf(section));
-  stages.scrollTo({left:section.offsetLeft-stages.offsetLeft,behavior:reducedMotion.matches?'instant':behavior});
+  if(document.body.classList.contains('continuous')){
+    window.scrollTo({top:section.getBoundingClientRect().top+window.scrollY-document.querySelector('header').offsetHeight,behavior:reducedMotion.matches?'instant':behavior});
+  }else stages.scrollTo({left:section.offsetLeft-stages.offsetLeft,behavior:reducedMotion.matches?'instant':behavior});
+  scheduleDescriptionPlacement();
 }
 function navigateStage(index){
   const section=sections[Math.max(0,Math.min(sections.length-1,index))];
   showStage(section);
+  showDescription(activeStage,descriptionState[activeStage].index,true);
   history.replaceState(null,'','#'+section.id);
 }
 previousStage.onclick=()=>navigateStage(activeStage-1);
@@ -10428,39 +10902,58 @@ nextStage.onclick=()=>navigateStage(activeStage+1);
 document.addEventListener('keydown',e=>{
   const editing=e.target instanceof Element&&e.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"]');
   if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||editing)return;
+  if(descriptionsToggle.checked&&(e.key==='ArrowDown'||e.key==='ArrowUp')){
+    e.preventDefault();moveDescription(e.key==='ArrowDown'?1:-1);return;
+  }
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
     const direction=e.key==='ArrowLeft'?-1:1;
     if(activeStage+direction<0||activeStage+direction>=sections.length)return;
-    e.preventDefault();
-    navigateStage(activeStage+direction);
+    e.preventDefault();navigateStage(activeStage+direction);
   }
 });
+descriptionsToggle.addEventListener('change',()=>{
+  document.body.classList.toggle('descriptions-enabled',descriptionsToggle.checked);
+  document.querySelector('#description-state').textContent=descriptionsToggle.checked?'Descriptions on':'Descriptions off';
+  showDescription(activeStage,descriptionState[activeStage].index,descriptionsToggle.checked);
+});
 stages.addEventListener('scroll',()=>{
-  if(document.body.classList.contains('continuous'))return;
-  setActiveStage(Math.max(0,Math.min(sections.length-1,Math.round(stages.scrollLeft/stages.clientWidth))));
+  if(!document.body.classList.contains('continuous'))setActiveStage(Math.round(stages.scrollLeft/stages.clientWidth));
+  scheduleDescriptionPlacement();
 },{passive:true});
 window.addEventListener('scroll',()=>{
-  if(!document.body.classList.contains('continuous'))return;
-  const target=window.scrollY+document.querySelector('header').offsetHeight+2;
-  let index=0;
-  sections.forEach((section,i)=>{if(section.getBoundingClientRect().top+window.scrollY<=target)index=i;});
-  setActiveStage(index);
+  if(document.body.classList.contains('continuous')){
+    const target=window.scrollY+document.querySelector('header').offsetHeight+2;
+    let index=0;
+    sections.forEach((section,i)=>{if(section.getBoundingClientRect().top+window.scrollY<=target)index=i;});
+    setActiveStage(index);
+  }
+  scheduleDescriptionPlacement();
 },{passive:true});
+sections.forEach(section=>section.querySelector('.viewport').addEventListener('scroll',scheduleDescriptionPlacement,{passive:true}));
+function syncDescriptionToNode(node){
+  const state=descriptionState[activeStage];
+  const index=state.items.findIndex(item=>item.target===node);
+  if(index>=0)showDescription(activeStage,index,false);
+}
 function revealElement(el,behavior='smooth'){
-  const section=el.closest('section');
-  if(!section)return;
+  const section=el.closest('section');if(!section)return;
   showStage(section,behavior);
-  if(el===section)return;
-  if(document.body.classList.contains('continuous')){el.scrollIntoView({block:'center',inline:'center',behavior:reducedMotion.matches?'instant':behavior});return;}
-  const viewport=section.querySelector('.viewport'), bounds=el.getBoundingClientRect(), frame=viewport.getBoundingClientRect();
-  viewport.scrollTo({
-    left:viewport.scrollLeft+bounds.left-frame.left-Math.max(0,(viewport.clientWidth-bounds.width)/2),
-    top:viewport.scrollTop+bounds.top-frame.top-Math.max(0,(viewport.clientHeight-bounds.height)/2),
-    behavior:reducedMotion.matches?'instant':behavior
-  });
+  if(el===section){showDescription(activeStage,descriptionState[activeStage].index,true);return;}
+  if(el.matches('g.node'))syncDescriptionToNode(el);
+  if(document.body.classList.contains('continuous')){
+    const top=el.getBoundingClientRect().top+window.scrollY-document.querySelector('header').offsetHeight-30;
+    window.scrollTo({top,behavior:reducedMotion.matches?'instant':behavior});
+  }
+  const viewport=section.querySelector('.viewport'),bounds=el.getBoundingClientRect(),frame=viewport.getBoundingClientRect();
+  viewport.scrollTo({left:viewport.scrollLeft+bounds.left-frame.left-Math.max(0,(viewport.clientWidth-bounds.width)/2),top:viewport.scrollTop+bounds.top-frame.top-Math.max(0,(viewport.clientHeight-bounds.height)/2),behavior:reducedMotion.matches?'instant':behavior});
+  scheduleDescriptionPlacement();
 }
 svgs.forEach(s=>{const v=s.viewBox.baseVal;s.dataset.w=v.width*4/3;s.dataset.h=v.height*4/3;});
-function sizeCharts(){svgs.forEach(s=>{const factor=fitting?Math.min(1,(s.closest('.viewport').clientWidth-44)/Number(s.dataset.w)):zoom;s.style.width=Number(s.dataset.w)*factor+'px';s.style.height=Number(s.dataset.h)*factor+'px';});document.querySelector('#scale').textContent=fitting?'Fit':Math.round(zoom*100)+'%';}
+function sizeCharts(){
+  svgs.forEach(s=>{const factor=fitting?Math.min(1,(s.closest('.viewport').clientWidth-44)/Number(s.dataset.w)):zoom;s.style.width=Number(s.dataset.w)*factor+'px';s.style.height=Number(s.dataset.h)*factor+'px';});
+  document.querySelector('#scale').textContent=fitting?'Fit':Math.round(zoom*100)+'%';
+  scheduleDescriptionPlacement();
+}
 document.querySelector('#zin').onclick=()=>{zoom=Math.min(2.5,zoom+.15);fitting=false;sizeCharts();};
 document.querySelector('#zout').onclick=()=>{zoom=Math.max(.4,zoom-.15);fitting=false;sizeCharts();};
 document.querySelector('#reset').onclick=()=>{zoom=1;fitting=false;sizeCharts();};
@@ -10474,21 +10967,27 @@ function nextMatch(){if(!matches.length)return;matchIndex=(matchIndex+1)%matches
 document.querySelector('#findnext').onclick=nextMatch;
 query.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nextMatch();}});
 document.querySelector('#clear').onclick=()=>{query.value='';find();document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));};
-function goHash(behavior='instant'){if(!location.hash)return;const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(el){revealElement(el,behavior);if(el.classList.contains('node'))selectNode(el);}}
+function goHash(behavior='instant'){
+  if(!location.hash)return;
+  const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if(el){revealElement(el,behavior);if(el.classList.contains('node'))selectNode(el);}
+}
 document.addEventListener('click',e=>{
   if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
-  const link=e.target.closest('a'), href=link?.getAttribute('href')||link?.getAttribute('xlink:href');
-  if(!href?.startsWith('#'))return;
-  if(!document.getElementById(decodeURIComponent(href.slice(1))))return;
-  e.preventDefault();
-  if(location.hash!==href)history.pushState(null,'',href);
-  goHash('smooth');
+  const link=e.target.closest('a'),href=link?.getAttribute('href')||link?.getAttribute('xlink:href');
+  if(!href?.startsWith('#')||!document.getElementById(decodeURIComponent(href.slice(1))))return;
+  e.preventDefault();if(location.hash!==href)history.pushState(null,'',href);goHash('smooth');
 });
-window.addEventListener('hashchange',()=>requestAnimationFrame(()=>goHash()));
-window.addEventListener('resize',()=>{if(fitting)sizeCharts();showStage(sections[activeStage],'instant');});
-sizeCharts();setActiveStage(0);requestAnimationFrame(()=>goHash());
-
+window.addEventListener('hashchange',()=>goHash());
+window.addEventListener('popstate',()=>goHash());
+window.addEventListener('resize',()=>{if(fitting)sizeCharts();showStage(sections[activeStage],'instant');if(descriptionsToggle.checked)revealDescriptionTarget(activeStage);});
 document.querySelector('#print').onclick=()=>window.print();
-document.querySelector('#all-stages').onclick=()=>{const on=document.body.classList.toggle('continuous');document.querySelector('#all-stages').textContent=on?'One stage ↔':'All stages ↓';document.querySelector('#all-stages').setAttribute('aria-pressed',String(on));sizeCharts();showStage(sections[activeStage],'instant');};
+document.querySelector('#all-stages').onclick=()=>{
+  const index=activeStage,on=document.body.classList.toggle('continuous');
+  document.querySelector('#all-stages').textContent=on?'One stage ↔':'All stages ↓';document.querySelector('#all-stages').setAttribute('aria-pressed',String(on));
+  sizeCharts();showStage(sections[index],'instant');showDescription(index,descriptionState[index].index,true);
+};
 nodes.forEach(n=>{n.setAttribute('tabindex','0');n.setAttribute('aria-label',n.textContent.replace(/\s+/g,' ').trim());n.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.target.closest('a')){e.preventDefault();selectNode(n)}})});
+sizeCharts();setActiveStage(0);
+requestAnimationFrame(()=>{showDescription(0,0,false);if(location.hash)goHash();else revealDescriptionTarget(0);});
 </script></body></html>
